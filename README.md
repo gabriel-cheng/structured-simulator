@@ -1,12 +1,12 @@
 ![status](https://img.shields.io/badge/STATUS-UNDER%20CONSTRUCTION-%23E8FF01&?style=flat-square&logo=appveyor)
 
 <p align="center">
-  <strong>GAMECON - ONLINE GAMMING E-COMMERCE</strong>
+  <strong>CONSORTIUM SIMULATOR</strong>
 </p>
 
 # About the project
 
-The project is a simple e-commerce that allows the user to purchase games online. The project was developed with the purpose of practicing my development skills with Javascript.
+The project is a simple consortium simulation system that aims to offer an overview of values and rates depending on te chosen administrator.
 
 # Content
 
@@ -27,7 +27,7 @@ It is essential that you have ```Node.js``` on your machine to run the applicati
 
 1°- Make a clone of the repository:
 ```
-$git clone https://github.com/gabriel-cheng/gamecon-system
+$git clone https://github.com/gabriel-cheng/structured-simulator
 ```
 
 2°- Inside the cloned directory, run the following command to install all packages:
