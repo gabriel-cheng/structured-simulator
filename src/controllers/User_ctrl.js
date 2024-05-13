@@ -5,16 +5,16 @@ class UserCtrl {
         try {
             const all_users = await User.findAll();
 
-            return res.json({
+            return res.status(200).json({
                 "response": all_users,
                 "status_code": 200
             });
         } catch(error) {
             console.log({error});
 
-            return res.json({
-                "response": {"message": "Internal server error!", error},
-                "status_code": 500
+            return res.status(400).json({
+                "response": {"message": "Bad request", error},
+                "status_code": 400
             });
         }
     }
@@ -38,16 +38,16 @@ class UserCtrl {
                 user_password
             });
 
-            return res.json({
+            return res.status(200).json({
                 "response": new_user,
                 "status_code": 201
             });
         } catch(error) {
             console.log({error});
 
-            return res.json({
-                "response": {"message": "Internal server error!", error},
-                "status_code": 500
+            return res.status(400).json({
+                "response": {"message": "Bad request", error},
+                "status_code": 400
             });
         }
     }
@@ -80,14 +80,14 @@ class UserCtrl {
             await user.set(user_updated);
             await user.save();
 
-            return res.json({
+            return res.status(200).json({
                 "response": user,
                 "status_code": 200
             });
         } catch(error) {
-            return res.json({
-                "response": {"message": "Internal server error!", error},
-                "status_code": 500
+            return res.status(400).json({
+                "response": {"message": "Bad request", error},
+                "status_code": 400
             });
         }
     }
@@ -99,14 +99,14 @@ class UserCtrl {
                 "where": { user_id }
             });
 
-            return res.json({
+            return res.status(200).json({
                 "response": "User deleted successfuly!",
                 "status_code": 200
             });
         } catch(error) {
-            return res.json({
-                "response": {"message": "Internal server error!", error},
-                "status_code": 500
+            return res.status(400).json({
+                "response": {"message": "Bad request", error},
+                "status_code": 400
             });
         }
     }
