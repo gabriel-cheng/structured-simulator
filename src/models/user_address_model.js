@@ -40,7 +40,7 @@ const User_address = sequelize.define(
                     "msg": "O campo bairro não pode ser vazio!"
                 },
                 "len": {
-                    "args": [4, 20],
+                    "args": [2, 20],
                     "msg": "O campo bairro precisa estar entre 4 e 20 caracteres!"
                 }
             }
