@@ -19,7 +19,7 @@ const User_address = sequelize.define(
                 }
             }
         },
-        "user_address_road": {
+        "user_address_street": {
             "type": DataTypes.STRING,
             "allowNull": false,
             "validate": {
@@ -40,7 +40,7 @@ const User_address = sequelize.define(
                     "msg": "O campo bairro não pode ser vazio!"
                 },
                 "len": {
-                    "args": [4, 20],
+                    "args": [2, 20],
                     "msg": "O campo bairro precisa estar entre 4 e 20 caracteres!"
                 }
             }
@@ -86,11 +86,14 @@ const User_address = sequelize.define(
         },
         "user_foreign_key": {
             "type": DataTypes.INTEGER,
-            "allowNull": false
+            "allowNull": false,
+            "references": { "model": "Users", "key": "user_id" },
+            "onUpdate": "CASCADE",
+            "onDelete": "CASCADE"
         }
     }
 );
 
-User_address.belongsTo(User, { "foreignKey": "user_foreign_key", "allowNull": false });
+User_address.belongsTo(User, { "foreignKey": "user_foreign_key", as: "owner", "allowNull": false });
 
 export default User_address;
