@@ -11,27 +11,88 @@ const User = sequelize.define(
         },
         "user_first_name": {
             "type": DataTypes.STRING,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "len": {
+                    "args": [2, 20],
+                    "msg": "O campo nome deve estar entre 2 e 20 caracteres!"
+                },
+                "notEmpty": {
+                    "msg": "O campo nome não pode ser vazio!"
+                }
+            }
         },
         "user_last_name": {
             "type": DataTypes.STRING,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "len": {
+                    "args": [2, 30],
+                    "msg": "O campo sobrenome deve estar entre 2 e 30 caracteres!"
+                },
+                "notEmpty": {
+                    "msg": "O campo sobrenome não pode ser vazio!"
+                }
+            }
         },
         "user_email": {
             "type": DataTypes.STRING,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "len": {
+                    "args": [5, 60],
+                    "msg": "O campo e-mail deve estar entre 5 e 60 caracteres!"
+                },
+                "notEmpty": {
+                    "msg": "O campo e-mail não pode ser vazio!"
+                },
+                "isEmail": {
+                    "msg": "Este campo precisa ser um e-mail válido!"
+                }
+            }
         },
         "user_phone": {
             "type": DataTypes.STRING,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "len": {
+                    "args": [11, 11],
+                    "msg": "O campo telefone deve possuir exatos 11 caracteres!"
+                },
+                "notEmpty": {
+                    "msg": "O campo telefone não pode ser vazio!"
+                }
+            }
         },
         "user_cpf": {
             "type": DataTypes.STRING,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "len": {
+                    "args": [11, 11],
+                    "msg": "O campo cpf deve possuir exatos 11 caracteres!"
+                },
+                "notEmpty": {
+                    "msg": "O campo cpf não pode ser vazio!"
+                }
+            }
         },
         "user_password": {
             "type": DataTypes.STRING,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "len": {
+                    "args": [5],
+                    "msg": "O campo senha deve possuir no mínimo 5 caracteres!"
+                },
+                "notEmpty": {
+                    "msg": "O campo senha não pode ser vazio!"
+                },
+                "notIn": {
+                    "args": ["12345", "123456", "1234567", "12345678", "123456789"],
+                    "msg": "Você não pode informar uma sequência numérica como senha!"
+                }
+            }
         }
     }
 );

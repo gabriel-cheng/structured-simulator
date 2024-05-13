@@ -12,27 +12,77 @@ const User_address = sequelize.define(
         },
         "user_address_number": {
             "type": DataTypes.INTEGER,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "notEmpty": {
+                    "msg": "O campo numero não pode ser vazio!"
+                }
+            }
         },
         "user_address_road": {
             "type": DataTypes.STRING,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "notEmpty": {
+                    "msg": "O campo rua não pode ser vazio!"
+                },
+                "len": {
+                    "args": [2, 60],
+                    "msg": "O campo rua precisa estar entre 2 e 60 caracteres!"
+                }
+            }
         },
         "user_address_neighborhood": {
             "type": DataTypes.STRING,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "notEmpty": {
+                    "msg": "O campo bairro não pode ser vazio!"
+                },
+                "len": {
+                    "args": [4, 20],
+                    "msg": "O campo bairro precisa estar entre 4 e 20 caracteres!"
+                }
+            }
         },
         "user_address_city": {
             "type": DataTypes.STRING,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "notEmpty": {
+                    "msg": "O campo cidade não pode ser vazio!"
+                },
+                "len": {
+                    "args": [3, 120],
+                    "msg": "O campo cidade precisa estar entre 3 e 120 caracteres!"
+                }
+            }
         },
         "user_address_state": {
             "type": DataTypes.STRING,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "notEmpty": {
+                    "msg": "O campo estado não pode ser vazio!"
+                },
+                "len": {
+                    "args": [4, 20],
+                    "msg": "O campo estado precisa estar entre 4 e 20 caracteres!"
+                }
+            }
         },
         "user_address_zip_code": {
             "type": DataTypes.INTEGER,
-            "allowNull": false
+            "allowNull": false,
+            "validate": {
+                "notEmpty": {
+                    "msg": "O campo cep não pode ser vazio!"
+                },
+                "len": {
+                    "args": [8, 8],
+                    "msg": "O campo cep precisa ter exatos 8 caracteres!"
+                }
+            }
         },
         "user_foreign_key": {
             "type": DataTypes.INTEGER,
