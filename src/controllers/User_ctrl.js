@@ -2,6 +2,9 @@ import User from "../models/user_model.js";
 import User_address from "../models/user_address_model.js";
 
 class UserCtrl {
+    viewTemplateTest(req, res) {
+        res.render("home");
+    }
     async viewAllUsers(req, res) {
         try {
             const users = await User.findAll();

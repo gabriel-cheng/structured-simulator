@@ -2,6 +2,10 @@ import express from "express";
 import sequelize from "./config/database_conf.js";
 import user_route from "./router/user_route.js";
 import index_model from "./models/index_model.js";
+import { engine } from "express-handlebars";
+import path from "path";
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 try {
     sequelize.sync({ force: false })
@@ -11,6 +15,10 @@ try {
 }
 
 const app = express();
+
+app.engine("handlebars", engine({defaultLayout: 'main', extname: '.handlebars'}));
+app.set("view engine", "handlebars");
+app.set("views", path.join(__dirname, 'views/'));
 
 app.use(express.json());
 
