@@ -4,15 +4,38 @@ import User_address from "../models/user_address_model.js";
 class UserCtrl {
     async viewAllUsers(req, res) {
         try {
-            const all_users = await User.findAll();
+            const users = await User.findAll();
 
             return res.status(200).json({
-                "response": all_users,
+                "response": {
+                    users
+                },
                 "status_code": 200
             });
         } catch(error) {
             console.log({error});
 
+            return res.status(400).json({
+                "response": {"message": "Bad request", error},
+                "status_code": 400
+            });
+        }
+    }
+    async viewOneUser(req, res) {
+        const { user_id } = req.params;
+
+        try {
+            const user = await User.findOne({
+                "where": { user_id },
+            });
+
+            return res.status(200).json({
+                "response": {
+                    user
+                },
+                "status_code": 200
+            });
+        } catch(error) {
             return res.status(400).json({
                 "response": {"message": "Bad request", error},
                 "status_code": 400
@@ -30,7 +53,7 @@ class UserCtrl {
         } = req.body;
 
         try {
-            const new_user = await User.create({
+            const user = await User.create({
                 user_first_name,
                 user_last_name,
                 user_email,
@@ -40,7 +63,9 @@ class UserCtrl {
             });
 
             return res.status(200).json({
-                "response": new_user,
+                "response": {
+                    user
+                },
                 "status_code": 201
             });
         } catch(error) {
@@ -75,14 +100,16 @@ class UserCtrl {
 
         try {
             const user = await User.findOne({
-                "where": { user_id }
+                "where": { user_id },
             });
 
             await user.set(user_updated);
             await user.save();
 
             return res.status(200).json({
-                "response": user,
+                "response": {
+                    user
+                },
                 "status_code": 200
             });
         } catch(error) {
@@ -111,8 +138,29 @@ class UserCtrl {
             });
         }
     }
+    async viewUserAddress(req, res) {
+        const { user_foreign_key } = req.params;
+
+        try {
+            const address = await User_address.findAll({
+                "where": { user_foreign_key }
+            });
+
+            return res.status(200).json({
+                "response": {
+                    address
+                },
+                "status_code": 200
+            });
+        } catch(error) {
+            return res.status(400).json({
+                "response": {"message": "Bad request", error},
+                "status_code": 400
+            });
+        }
+    }
     async createUserAddress(req, res) {
-        const { user_id } = req.params;
+        const { user_foreign_key } = req.params;
         const {
             user_address_number,
             user_address_street,
@@ -133,7 +181,7 @@ class UserCtrl {
         }
 
         try {
-            const user = await User.findByPk(user_id);
+            const user = await User.findByPk(user_foreign_key);
 
             if(!user) {
                 return res.status(401).json({
@@ -142,10 +190,12 @@ class UserCtrl {
                 });
             }
 
-            const new_address = await User_address.create(new_address_model);
+            const address = await User_address.create(new_address_model);
 
             return res.status(201).json({
-                "response": new_address,
+                "response": {
+                    address
+                },
                 "status_code": 201
             });
         } catch(error) {
@@ -154,6 +204,48 @@ class UserCtrl {
                 "status_code": 400
             });
         }
+    }
+    async updateUserAddress(req, res) {
+        const { user_foreign_key } = req.params;
+        const {
+            user_address_number,
+            user_address_street,
+            user_address_neighborhood,
+            user_address_city,
+            user_address_state,
+            user_address_zip_code
+        } = req.body;
+
+        const address_updated = {
+            user_address_number,
+            user_address_street,
+            user_address_neighborhood,
+            user_address_city,
+            user_address_state,
+            user_address_zip_code
+        }
+
+        try {
+            const address = await User_address.findOne({
+                "where": { user_foreign_key }
+            });
+
+            await address.set(address_updated);
+            await address.save();
+
+            return res.status(200).json({
+                "response": {
+                    address
+                },
+                "status_code": 200
+            });
+        } catch(error) {
+            return res.status(400).json({
+                "response": {"message": "Bad request", error},
+                "status_code": 400
+            });
+        }
+
     }
 }
 
