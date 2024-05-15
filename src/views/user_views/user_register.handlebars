@@ -1,0 +1,38 @@
+<main>
+    <form method="POST" action="/user/template/view">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputName">Nome</label>
+                <input name="user_firstname" type="text" class="form-control" id="inputName" placeholder="Informe seu nome">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputLastName">Sobrenome</label>
+                <input name="user_lastname" type="text" class="form-control" id="inputLastName" placeholder="Informe seu sobrenome">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Email</label>
+                <input name="email" type="email" class="form-control" id="inputEmail4" placeholder="Email">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPassword4">Senha</label>
+                <input name="user_password" type="password" class="form-control" id="inputPassword4" placeholder="Senha">
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputCellphone">Telefone</label>
+            <input name="user_cellphone" onsubmit="replaceValues(this);" oninput="phoneMask(this.value, this);" maxlength="15" type="text" class="form-control" id="inputCellphone" placeholder="Informe os 11 dígitos do seu celular (DDD + número)">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputCpf">CPF</label>
+            <input name="user_cpf" onsubmit="replaceValues(this);" oninput="cpf(this.value, this);" maxlength="14" type="text" class="form-control" id="inputCpf"
+                placeholder="Informe os 11 dígitos do seu CPF">
+        </div>
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+</main>
+<script>
+    /*
+    const my_string = "063.449.161-09";
+    const new_string = my_string.replace(/[^0-9]/g, "");
+    */
+</script>

@@ -2,8 +2,10 @@ import User from "../models/user_model.js";
 import User_address from "../models/user_address_model.js";
 
 class UserCtrl {
-    viewTemplateTest(req, res) {
-        res.render("home");
+    congratulations(req, res) {
+        const data = req.body;
+
+        res.render("user_views/register_congratulations", {dados: JSON.stringify(data)});
     }
     async viewAllUsers(req, res) {
         try {
@@ -46,39 +48,45 @@ class UserCtrl {
         }
     }
     async createNewUser(req, res) {
-        const {
-            user_first_name,
-            user_last_name,
-            user_email,
-            user_phone,
-            user_cpf,
-            user_password
-        } = req.body;
-
-        try {
-            const user = await User.create({
-                user_first_name,
-                user_last_name,
-                user_email,
-                user_phone,
-                user_cpf,
-                user_password
-            });
-
-            return res.status(200).json({
-                "response": {
-                    user
-                },
-                "status_code": 201
-            });
-        } catch(error) {
-            console.log({error});
-
-            return res.status(400).json({
-                "response": {"message": "Bad request", error},
-                "status_code": 400
-            });
+        const view_variables = {
+            "title": "Criar cadastro"
         }
+
+        return res.render("user_views/user_register", view_variables);
+        // res.render("user_views/user_register");
+        // const {
+        //     user_first_name,
+        //     user_last_name,
+        //     user_email,
+        //     user_phone,
+        //     user_cpf,
+        //     user_password
+        // } = req.body;
+
+        // try {
+        //     const user = await User.create({
+        //         user_first_name,
+        //         user_last_name,
+        //         user_email,
+        //         user_phone,
+        //         user_cpf,
+        //         user_password
+        //     });
+
+        //     return res.status(200).json({
+        //         "response": {
+        //             user
+        //         },
+        //         "status_code": 201
+        //     });
+        // } catch(error) {
+        //     console.log({error});
+
+        //     return res.status(400).json({
+        //         "response": {"message": "Bad request", error},
+        //         "status_code": 400
+        //     });
+        // }
     }
     async updateUser(req, res) {
         const { user_id } = req.params;
