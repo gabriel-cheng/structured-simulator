@@ -1,5 +1,6 @@
 import User from "../models/user_model.js";
 import User_address from "../models/user_address_model.js";
+import { genSalt, hash } from "bcrypt";
 
 class UserCtrl {
     async viewAllUsers(req, res) {
@@ -42,32 +43,28 @@ class UserCtrl {
             });
         }
     }
-    async createNewUser(req, res) {
-        const {
-            user_first_name,
-            user_last_name,
-            user_email,
-            user_phone,
-            user_cpf,
-            user_password
-        } = req.body;
+    async registerNewUser(req, res) {
+        const data = req.body;
+        const user_phone = data.user_phone.replace(/[^0-9]/g, "");
+        const user_cpf = data.user_cpf.replace(/[^0-9]/g, "");
+
+        const user_password = data.user_password;
+        const b_salt = await genSalt(12);
+        const b_pass_hash = await hash(user_password, b_salt);
+
+        const new_user = {
+            "user_first_name": data.user_first_name,
+            "user_last_name": data.user_last_name,
+            "user_email": data.user_email,
+            "user_phone": user_phone,
+            "user_cpf": user_cpf,
+            "user_password": b_pass_hash
+        };
 
         try {
-            const user = await User.create({
-                user_first_name,
-                user_last_name,
-                user_email,
-                user_phone,
-                user_cpf,
-                user_password
-            });
+            const user = await User.create(new_user);
 
-            return res.status(200).json({
-                "response": {
-                    user
-                },
-                "status_code": 201
-            });
+            res.render("user_views/register_congratulations", {dados: JSON.stringify(user)});
         } catch(error) {
             console.log({error});
 
@@ -76,6 +73,14 @@ class UserCtrl {
                 "status_code": 400
             });
         }
+        res.render("user_views/register_congratulations", {dados: JSON.stringify(data)});
+    }
+    async registerNewUserView(req, res) {
+        const view_variables = {
+            "title": "Criar cadastro"
+        }
+
+        return res.render("user_views/user_register", view_variables);
     }
     async updateUser(req, res) {
         const { user_id } = req.params;
