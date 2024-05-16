@@ -73,7 +73,6 @@ class UserCtrl {
                 "status_code": 400
             });
         }
-        res.render("user_views/register_congratulations", {dados: JSON.stringify(data)});
     }
     async registerNewUserView(req, res) {
         const view_variables = {
