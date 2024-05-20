@@ -32,8 +32,8 @@ class SystemGeneralLogicSv {
     }
     valorParcelaComSeguro(parcelaInicialUnitaria, sim_prazo_F9) {
         try {
-            const soma_primaria = ((1 + sim_prazo_F9) * 0.0431);
-            const resultado = parcelaInicialUnitaria * soma_primaria;
+            const soma = parcelaInicialUnitaria * (1 + sim_prazo_F9 * (0.0431 / 100));
+            const resultado = soma;
 
             if(!isFinite(resultado)) {
                 throw new Error("Resultado não finito");
