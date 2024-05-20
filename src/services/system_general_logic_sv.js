@@ -8,10 +8,11 @@ class SystemGeneralLogicSv {
         sim_carta_credito_unitaria_H9, sim_taxa_adm_D9, sim_fundo_reserva_E9, sim_prazo_F9
     ) {
         try {
-            const somaD_E = sim_taxa_adm_D9 + sim_fundo_reserva_E9;
-            const multiplicador = 1 + somaD_E;
-            const numerador = sim_carta_credito_unitaria_H9 * multiplicador;
-            const resultado = numerador / sim_prazo_F9;
+            const resultado = ((sim_carta_credito_unitaria_H9 * (1 + (sim_taxa_adm_D9 + sim_fundo_reserva_E9))) / sim_prazo_F9);
+            // const somaD_E = sim_taxa_adm_D9 + sim_fundo_reserva_E9;
+            // const multiplicador = 1 + somaD_E;
+            // const numerador = sim_carta_credito_unitaria_H9 * multiplicador;
+            // const resultado = numerador / sim_prazo_F9;
 
             if(!isFinite(resultado)) {
                 throw new Error("Resultado não finito");
@@ -124,11 +125,35 @@ class SystemGeneralLogicSv {
 
         return resultado;
     }
-    parcelaPosContemplacaoSemSeguro() {
+    parcelaPosContemplacaoSemSeguro(sim_carta_credito_unitaria_H9, sim_taxa_adm_D9, sim_fundo_reserva_E9, lanceRecursosPropriosValorLanceLivre, lanceEmbutidoValorLanceLivre, parcelaInicialUnitaria, sim_prazo_F9) {
+        try {
+            const soma = ((((sim_carta_credito_unitaria_H9 * (1+sim_taxa_adm_D9+sim_fundo_reserva_E9))-(lanceRecursosPropriosValorLanceLivre+lanceEmbutidoValorLanceLivre)-parcelaInicialUnitaria)/(sim_prazo_F9-1)));
 
+            const resultado = soma;
+
+            if(!isFinite(resultado)) {
+               throw new Error("resultado não finito");
+            }
+
+            return resultado;
+        } catch(error) {
+            return "-";
+        }
     }
-    parcelaPosContemplacaoComSeguro() {
+    parcelaPosContemplacaoComSeguro(parcelaPosContemplacaoSemSeguro, sim_prazo_F9) {
+        try {
+            const soma = parcelaPosContemplacaoSemSeguro * (1 + (sim_prazo_F9 - 1) * (0.1252 / 100));
 
+            const resultado = soma;
+
+            if(!isFinite(resultado)) {
+               throw new Error("resultado não finito");
+            }
+
+            return resultado;
+        } catch(error) {
+            return "-";
+        }
     }
     parcelaTotalPosContemplacao(parcelaPosContemplacaoSemSeguro, sim_cotas_G9) {
         try {

@@ -65,6 +65,14 @@ class SystemLogicTest {
             cartaCreditoTotal, lanceEmbutidoValor
         );
 
+        this.parcelaPosContemplacaoSemSeguro(
+            sim_carta_credito_unitaria_H9, sim_taxa_adm_D9, sim_fundo_reserva_E9, lanceRecursosPropriosValorLanceLivre, lanceEmbutidoValorLanceLivre, parcelaInicialUnitaria, sim_prazo_F9
+        );
+
+        this.parcelaPosContemplacaoComSeguro(
+            parcelaPosContemplacaoSemSeguro, sim_prazo_F9
+        );
+
         this.parcelaTotalPosContemplacao(
             parcelaPosContemplacaoSemSeguro, sim_cotas_G9
         );
@@ -147,6 +155,22 @@ class SystemLogicTest {
         );
 
         console.log(`Credito disponivel total: ${method}`);
+    }
+    parcelaPosContemplacaoSemSeguro(
+        sim_carta_credito_unitaria_H9, sim_taxa_adm_D9, sim_fundo_reserva_E9, lanceRecursosPropriosValorLanceLivre, lanceEmbutidoValorLanceLivre, parcelaInicialUnitaria, sim_prazo_F9
+    ) {
+        const method = system.parcelaPosContemplacaoSemSeguro(
+            sim_carta_credito_unitaria_H9, sim_taxa_adm_D9, sim_fundo_reserva_E9, lanceRecursosPropriosValorLanceLivre, lanceEmbutidoValorLanceLivre, parcelaInicialUnitaria, sim_prazo_F9
+        );
+
+        console.log(`Parcela pos contemplacao sem seguro: ${method}`);
+    }
+    parcelaPosContemplacaoComSeguro(parcelaPosContemplacaoSemSeguro, sim_prazo_F9) {
+        const method = system.parcelaPosContemplacaoComSeguro(
+            parcelaPosContemplacaoSemSeguro, sim_prazo_F9
+        );
+
+        console.log(`Parcela pos contemplacao com seguro: ${method}`);
     }
     parcelaTotalPosContemplacao(parcelaPosContemplacaoSemSeguro, sim_cotas_G9) {
         const method = system.parcelaTotalPosContemplacao(
