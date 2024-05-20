@@ -1,10 +1,4 @@
 class SystemGeneralLogicSv {
-    __index__({
-        sim_grupos_sugeridos_C9, sim_taxa_adm_D9, sim_fundo_reserva_E9, sim_prazo_F9,
-        sim_cotas_G9, sim_carta_credito_unitaria_H9, sim_lance_recu_prop_percent_N9, sim_lance_embutido_percent_Q9
-    }) {
-
-    }
     cartaCreditoTotal(sim_carta_credito_unitaria_H9, sim_cotas_G9) {
         const total = sim_carta_credito_unitaria_H9 * sim_cotas_G9
 
@@ -32,8 +26,8 @@ class SystemGeneralLogicSv {
     }
     valorParcelaComSeguro(parcelaInicialUnitaria, sim_prazo_F9) {
         try {
-            const soma_primaria = ((1 + sim_prazo_F9) * 0.0431);
-            const resultado = parcelaInicialUnitaria * soma_primaria;
+            const soma = parcelaInicialUnitaria * (1 + sim_prazo_F9 * (0.0431 / 100));
+            const resultado = soma;
 
             if(!isFinite(resultado)) {
                 throw new Error("Resultado não finito");
@@ -92,7 +86,7 @@ class SystemGeneralLogicSv {
         const soma = lanceRecursosPropriosValorLanceLivre * sim_cotas_G9;
         const resultado = soma;
 
-        return soma;
+        return resultado;
     }
     lanceEmbutidoValorLanceLivre(sim_lance_embutido_percent_Q9, sim_carta_credito_unitaria_H9, sim_taxa_adm_D9, sim_fundo_reserva_E9, Q1 = 0.952381423080109) {
         try {

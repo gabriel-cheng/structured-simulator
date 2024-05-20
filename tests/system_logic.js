@@ -1,4 +1,4 @@
-import SystemGeneralLogicSv from "../src/services/system_general_logic_sv.js";
+import SystemGeneralLogicSv from "../src/services/System_general_logic_sv.js";
 const system = new SystemGeneralLogicSv();
 
 class SystemLogicTest {
