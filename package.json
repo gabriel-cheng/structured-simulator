@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --env-file=config.env ./src/index.js"
+    "dev": "nodemon --env-file=config.env ./src/index.js",
+    "systest": "node ./tests/index_test.js"
   },
   "keywords": [],
   "author": "",
