@@ -21,7 +21,7 @@ class SimulatorCtrl {
             sim_carta_credito_unitaria, sim_cotas
         );
 
-        const parcelaInicialUnitaria = Math.floor(system.parcelaInicialUnitaria(
+        const parcelaInicialUnitaria = Math.round(system.parcelaInicialUnitaria(
             sim_carta_credito_unitaria, sim_taxa_adm,
             sim_fundo_reserva, sim_prazo
         ));
@@ -30,13 +30,13 @@ class SimulatorCtrl {
             parcelaInicialUnitaria, sim_prazo
         ));
 
-        const parcelaInicialTotal = Math.round(system.parcelaInicialTotal(
+        const parcelaInicialTotal = system.parcelaInicialTotal(
             parcelaInicialUnitaria, sim_cotas
-        ));
+        );
 
-        const parcelaComSeguroTotal = Math.floor(system.parcelaComSeguroTotal(
+        const parcelaComSeguroTotal = system.parcelaComSeguroTotal(
             valorParcelaComSeguro, sim_cotas
-        ));
+        );
 
         const lanceRecursosPropriosValorLanceLivre = Math.round(system.lanceRecursosPropriosValorLanceLivre(
             sim_lance_recu_prop_percent, sim_carta_credito_unitaria,
@@ -63,7 +63,13 @@ class SimulatorCtrl {
             cartaCreditoTotal, lanceEmbutidoValor
         );
 
-        const parcelaPosContemplacaoSemSeguro = 3129;
+        const parcelaPosContemplacaoSemSeguro = Math.round(system.parcelaPosContemplacaoSemSeguro(
+            sim_carta_credito_unitaria, sim_taxa_adm, sim_fundo_reserva, lanceRecursosPropriosValorLanceLivre, lanceEmbutidoValorLanceLivre, parcelaInicialUnitaria, sim_prazo
+        ));
+
+        const parcelaPosContemplacaoComSeguro = Math.round(system.parcelaPosContemplacaoComSeguro(
+            parcelaPosContemplacaoSemSeguro, sim_prazo
+        ));
 
         const parcelaTotalPosContemplacao = system.parcelaTotalPosContemplacao(
             parcelaPosContemplacaoSemSeguro, sim_cotas
@@ -82,6 +88,7 @@ class SimulatorCtrl {
             lanceTotal,
             creditoDisponivelTotal,
             parcelaPosContemplacaoSemSeguro,
+            parcelaPosContemplacaoComSeguro,
             parcelaTotalPosContemplacao
         };
 
