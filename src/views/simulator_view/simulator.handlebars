@@ -1,43 +1,84 @@
 <style>
+    #table-subcontainer::-webkit-scrollbar {
+        width: 16px;
+    }
 
+    #table-subcontainer::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    #table-subcontainer::-webkit-scrollbar-thumb {
+        background-color: #727272;
+        border: 3px solid #ffffff;
+    }
+
+    #table-subcontainer::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    #table-subcontainer {
+        max-width: 98vw;
+        overflow: scroll;
+        border: 1px solid rgba(83, 83, 83, 0.233);
+        max-height: 600px;
+    }
+
+    th,
+    td {
+        min-width: 120px;
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid rgb(134, 134, 134);
+    }
 </style>
 
 <main>
-    <form method="POST" action="/simulator/send" class="d-flex flex-wrap">
+    <form id="simulator-form" class="d-flex flex-wrap form-simulator">
         <div class="px-3 mt-3 form-group col-md-6">
-            <label  for="formGroupExampleInput">Grupos sugeridos</label>
-            <input required name="sim_grupos_sugeridos" type="number" class="form-control" id="formGroupExampleInput" placeholder="Grupos sugeridos">
+            <label for="formGroupExampleInput">Grupos sugeridos</label>
+            <input required name="sim_grupos_sugeridos" type="number" class="form-control" id="formGroupExampleInput"
+                placeholder="Grupos sugeridos">
         </div>
         <div class="px-3 mt-3 form-group col-md-6">
-            <label  for="formGroupExampleInput2">Taxa de ADM. - %</label>
-            <input required name="sim_taxa_adm" type="number" class="form-control" id="formGroupExampleInput2" placeholder="Taxa de ADM.">
+            <label for="formGroupExampleInput2">Taxa de ADM. - %</label>
+            <input required name="sim_taxa_adm" type="number" class="form-control" id="formGroupExampleInput2"
+                placeholder="Taxa de ADM.">
         </div>
         <div class="px-3 mt-3 form-group col-md-6">
-            <label  for="formGroupExampleInput3">Fundo de reserva</label>
-            <input required name="sim_fundo_reserva" type="number" class="form-control" id="formGroupExampleInput3" placeholder="Fundo de reserva">
+            <label for="formGroupExampleInput3">Fundo de reserva</label>
+            <input required name="sim_fundo_reserva" type="number" class="form-control" id="formGroupExampleInput3"
+                placeholder="Fundo de reserva">
         </div>
         <div class="px-3 mt-3 form-group col-md-6">
-            <label  for="formGroupExampleInput4">Prazo</label>
-            <input required name="sim_prazo" type="number" class="form-control" id="formGroupExampleInput4" placeholder="Prazo">
+            <label for="formGroupExampleInput4">Prazo</label>
+            <input required name="sim_prazo" type="number" class="form-control" id="formGroupExampleInput4"
+                placeholder="Prazo">
         </div>
         <div class="px-3 mt-3 form-group col-md-6">
-            <label  for="formGroupExampleInput5">Quantidade de cotas</label>
-            <input required name="sim_cotas" type="number" class="form-control" id="formGroupExampleInput5" placeholder="Quantidade de cotas">
+            <label for="formGroupExampleInput5">Quantidade de cotas</label>
+            <input required name="sim_cotas" type="number" class="form-control" id="formGroupExampleInput5"
+                placeholder="Quantidade de cotas">
         </div>
         <div class="px-3 mt-3 form-group col-md-6">
-            <label  for="formGroupExampleInput6">Carta de crédito - Unitária</label>
-            <input required name="sim_carta_credito_unitaria" type="number" class="form-control" id="formGroupExampleInput6" placeholder="Carta de crédito - Unitária">
+            <label for="formGroupExampleInput6">Carta de crédito - Unitária</label>
+            <input required name="sim_carta_credito_unitaria" type="number" class="form-control"
+                id="formGroupExampleInput6" placeholder="Carta de crédito - Unitária">
         </div>
         <div class="px-3 mt-3 form-group col-md-6">
-            <label  for="formGroupExampleInput7">Lance de recursos próprios - %</label>
-            <input required name="sim_lance_recu_prop_percent" type="number" class="form-control" id="formGroupExampleInput7" placeholder="Lance de recursos próprios - %">
+            <label for="formGroupExampleInput7">Lance de recursos próprios - %</label>
+            <input required name="sim_lance_recu_prop_percent" type="number" class="form-control"
+                id="formGroupExampleInput7" placeholder="Lance de recursos próprios - %">
         </div>
         <div class="px-3 mt-3 form-group col-md-6">
-            <label  for="formGroupExampleInput8">Lance embutido - %</label>
-            <input required name="sim_lance_embutido_percent" type="number" class="form-control" id="formGroupExampleInput8" placeholder="Lance embutido - %">
+            <label for="formGroupExampleInput8">Lance embutido - %</label>
+            <input required name="sim_lance_embutido_percent" type="number" class="form-control"
+                id="formGroupExampleInput8" placeholder="Lance embutido - %">
         </div>
         <div class="w-100 d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary w-full w-25 mt-4 center">Submit</button>
+            <button type="submit" class="btn btn-primary w-full w-25 mt-4 center">Criar simulação +</button>
         </div>
     </form>
+    <div style="display: flex; justify-content: center;" class="mt-4">
+        <div id="table-subcontainer" class="p-2"></div>
+    </div>
 </main>
