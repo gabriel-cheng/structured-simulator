@@ -1,8 +1,50 @@
 import User from "../models/user_model.js";
 import User_address from "../models/user_address_model.js";
-import { genSalt, hash } from "bcrypt";
+import jwt from "jsonwebtoken";
+import { compare, genSalt, hash } from "bcrypt";
 
 class UserCtrl {
+    async userLoginRequest(req, res) {
+        const { user_email, user_password } = req.body;
+        const user_finded = await User.findOne({ "where": { "user_email": user_email } });
+
+        if(!user_finded) {
+            return res.status(404).json({
+                "response": "User not found!",
+                "status_code": 404
+            });
+        }
+
+        const check_password = await compare(user_password, user_finded.user_password);
+
+        if(!check_password) {
+            return res.status(400).json({
+                "response": "Wrong password!",
+                "status_code": 400
+            });
+        }
+
+        try {
+            const secret = process.env.JWT_SECRET || "defaultSecret";
+
+            const token = jwt.sign({
+                "id": user_finded.user_id,
+                "user_email": user_finded.user_email
+            }, secret);
+
+
+            return res.status(200).json({
+                "response": "Authentication successful!",
+                "authorization": token,
+                "status_code": 200
+            });
+        } catch(error) {
+            console.log({ error });
+        }
+    }
+    async userLoginView(req, res) {
+        return res.render("user_views/user_login");
+    }
     async viewAllUsers(req, res) {
         try {
             const users = await User.findAll();

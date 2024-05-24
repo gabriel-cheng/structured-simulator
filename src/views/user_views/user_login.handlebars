@@ -1,0 +1,90 @@
+<style>
+    .temporary-alert {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        color: white;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .hidden {
+        opacity: 0;
+    }
+</style>
+
+<main>
+    <div class="my-3 text-center">
+        <h1>Login</h1>
+    </div>
+    <div class="container">
+        <form id="login_form">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input required type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input required type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="p-0 mb-3 form-check">
+                <p>Não possui cadastro? <a href="/user/create/view">Cadastrar-se</a></p>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.querySelector("#login_form");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const user_email = document.querySelector("#exampleInputEmail1").value;
+            const user_password = document.querySelector("#exampleInputPassword1").value;
+
+            const response = await fetch("/user/auth/login/request", {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": JSON.stringify({
+                    user_email,
+                    user_password
+                })
+            }).then(e => e.json());
+
+            if (response.status_code == 200) {
+                const token = response.authorization;
+
+                localStorage.setItem("authorization", token);
+
+                setTimeout(() => {
+                    window.location.href = "/simulator"
+                }, 1500);
+
+                return showTemporaryAlert(response.response, 2000, "green");
+            }
+
+            showTemporaryAlert(response.response, 2000, "red");
+        });
+
+        function showTemporaryAlert(message, duration, color) {
+            const alert = document.createElement('div');
+            alert.className = 'temporary-alert';
+            alert.style.backgroundColor = color;
+            alert.textContent = message;
+            document.body.appendChild(alert);
+
+            setTimeout(() => {
+                alert.classList.add('hidden');
+                setTimeout(() => {
+                    document.body.removeChild(alert);
+                }, 500);
+            }, duration);
+        }
+    </script>
+</main>
