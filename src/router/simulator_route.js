@@ -4,6 +4,6 @@ const simulator_route = Router();
 const simulator_ctrl = new SimulatorCtrl();
 
 simulator_route.get("/", simulator_ctrl.index);
-simulator_route.post("/send", simulator_ctrl.simulatorSend);
+simulator_route.post("/simulate", simulator_ctrl.simulate);
 
 export default simulator_route;
