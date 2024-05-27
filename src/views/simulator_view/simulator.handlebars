@@ -87,9 +87,8 @@
         const simulations_arr = [];
 
         function checkAuth() {
-            const token = localStorage.getItem("authorization");
+            const token = sessionStorage.getItem("authorization");
 
-            console.log(token);
             if (!token) {
                 alert("Você precisa estar logado para acessar esta página.");
                 return window.location.href = "/user/auth/login";
@@ -99,39 +98,41 @@
         window.onload = checkAuth();
 
         form.addEventListener("submit", async (event) => {
-            event.preventDefault();
-            const table_subcontainer = document.querySelector("#table-subcontainer");
-            const form_target = event.target;
-            const formData = new FormData(form_target);
-            const data = {};
-            const token = localStorage.getItem("authorization");
+            try {
+                event.preventDefault();
+                const table_subcontainer = document.querySelector("#table-subcontainer");
+                const form_target = event.target;
+                const formData = new FormData(form_target);
+                const data = {};
+                const token = sessionStorage.getItem("authorization");
 
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
 
-            const request = await fetch("/simulator/simulate", {
-                "method": "POST",
-                "headers": {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                "body": JSON.stringify(data)
-            }).then(e => e.json());
+                const request = await fetch("/simulator/simulate", {
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    "body": JSON.stringify(data)
+                }).then(e => e.json());
 
-            simulations_arr.push(request.data);
+                if (request.status_code != 401) {
+                    simulations_arr.push(request.data);
 
-            const table_element = document.createElement("table");
-            table_element.className = "mb-3 table table-striped table-bordered";
-            table_element.style.boxShadow = "1px 1px 5px black";
-            const h4 = document.createElement("h4");
+                    const table_element = document.createElement("table");
+                    table_element.className = "mb-3 table table-striped table-bordered";
+                    table_element.style.boxShadow = "1px 1px 5px black";
+                    const h4 = document.createElement("h4");
 
-            for (let i = 0; i < simulations_arr.length; i++) {
-                h4.innerText = `Simulação ${i + 1}`;
+                    for (let i = 0; i < simulations_arr.length; i++) {
+                        h4.innerText = `Simulação ${i + 1}`;
 
-                table_subcontainer.appendChild(h4);
+                        table_subcontainer.appendChild(h4);
 
-                table_element.innerHTML = `
+                        table_element.innerHTML = `
                     <thead>
                         <tr>
                             <th rowspan="2">Grupos sugeridos</th>
@@ -192,9 +193,17 @@
                 `;
 
 
-                table_subcontainer.appendChild(table_element);
+                        table_subcontainer.appendChild(table_element);
+                    }
+
+                    return;
+                }
+
+                alert("Você precisa estar logado para continuar!");
+                return window.location.href = "/user/auth/login";
+            } catch (error) {
+                console.log({ error });
             }
         });
-
     </script>
 </main>

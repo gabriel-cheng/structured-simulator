@@ -19,7 +19,10 @@ function checkAuth(req, res, next) {
     } catch (error) {
         console.log({ error });
 
-        return;
+        return res.status(401).json({
+            "response": "Authentication expired, please connect again!",
+            "status_code": 401
+        });
     }
 }
 

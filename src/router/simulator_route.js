@@ -1,4 +1,4 @@
-import SimulatorCtrl from "../controllers/simulator_ctrl.js";
+import SimulatorCtrl from "../controllers/Simulator_ctrl.js";
 import { Router } from "express";
 const simulator_route = Router();
 const simulator_ctrl = new SimulatorCtrl();

@@ -30,8 +30,7 @@ class UserCtrl {
             const token = jwt.sign({
                 "id": user_finded.user_id,
                 "user_email": user_finded.user_email
-            }, secret);
-
+            }, secret, { "expiresIn": "3h" });
 
             return res.status(200).json({
                 "response": "Authentication successful!",
