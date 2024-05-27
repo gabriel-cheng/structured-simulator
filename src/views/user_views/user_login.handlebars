@@ -60,7 +60,7 @@
             if (response.status_code == 200) {
                 const token = response.authorization;
 
-                localStorage.setItem("authorization", token);
+                sessionStorage.setItem("authorization", token);
 
                 setTimeout(() => {
                     window.location.href = "/simulator"
