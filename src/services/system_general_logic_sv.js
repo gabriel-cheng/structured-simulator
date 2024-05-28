@@ -9,10 +9,6 @@ class SystemGeneralLogicSv {
     ) {
         try {
             const resultado = ((sim_carta_credito_unitaria_H9 * (1 + (sim_taxa_adm_D9 + sim_fundo_reserva_E9))) / sim_prazo_F9);
-            // const somaD_E = sim_taxa_adm_D9 + sim_fundo_reserva_E9;
-            // const multiplicador = 1 + somaD_E;
-            // const numerador = sim_carta_credito_unitaria_H9 * multiplicador;
-            // const resultado = numerador / sim_prazo_F9;
 
             if(!isFinite(resultado)) {
                 throw new Error("Resultado não finito");
@@ -22,8 +18,6 @@ class SystemGeneralLogicSv {
         } catch(error) {
             return "-";
         }
-
-
     }
     valorParcelaComSeguro(parcelaInicialUnitaria, sim_prazo_F9) {
         try {
