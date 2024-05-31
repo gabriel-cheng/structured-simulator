@@ -30,6 +30,9 @@
         vertical-align: middle;
         border: 1px solid rgb(134, 134, 134);
     }
+    .table_width_limiter {
+        max-width: 712px;
+    }
 </style>
 
 <main>
@@ -95,6 +98,7 @@
 
             for (let i = 0; i < simulations_arr.length; i++) {
                 const table_element = document.createElement("table");
+                table_element.classList.add("table_width_limiter");
                 const h4 = document.createElement("h4");
                 const div_el = document.createElement("div");
 
@@ -186,7 +190,7 @@
 
             const option = {
                 "margin": 0.5,
-                "filename": "myfile.pdf",
+                "filename": "simulacao_consorcio.pdf",
                 "html2canvas": { "scale": 1 },
                 "jsPDF": {
                     "unit": "in",
