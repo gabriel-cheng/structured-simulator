@@ -30,6 +30,9 @@
         vertical-align: middle;
         border: 1px solid rgb(134, 134, 134);
     }
+    .table_width_limiter {
+        max-width: 712px;
+    }
 </style>
 
 <main>
@@ -78,13 +81,126 @@
             <button type="submit" class="btn btn-primary w-full w-25 mt-4 center">Criar simulação +</button>
         </div>
     </form>
+    <button onclick="downloadPDF();" class="btn btn-warning">Baixar PDF</button>
     <div style="display: flex; justify-content: center;" class="mt-4">
         <div id="table-subcontainer" class="p-2"></div>
     </div>
 
     <script>
+        const table_subcontainer = document.querySelector("#table-subcontainer");
         const form = document.querySelector("#simulator-form");
         const simulations_arr = [];
+
+        window.onload = checkAuth();
+
+        function downloadPDF() {
+            const table_container = document.createElement("div");
+
+            for (let i = 0; i < simulations_arr.length; i++) {
+                const table_element = document.createElement("table");
+                table_element.classList.add("table_width_limiter");
+                const h4 = document.createElement("h4");
+                const div_el = document.createElement("div");
+
+                h4.innerText = `Simulação ${i + 1}`;
+
+                div_el.appendChild(h4);
+
+                table_element.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Grupos sugeridos</th>
+                            <th rowspan="2">Taxa de ADM</th>
+                            <th rowspan="2">Fundo de reserva</th>
+                            <th rowspan="2">Prazo</th>
+                            <th rowspan="2">Qtde. cotas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${simulations_arr[i].sim_grupos_sugeridos}</td>
+                            <td>${simulations_arr[i].sim_taxa_adm * 100}%</td>
+                            <td>${simulations_arr[i].sim_fundo_reserva * 100}%</td>
+                            <td>${simulations_arr[i].sim_prazo}</td>
+                            <td>${simulations_arr[i].sim_cotas}</td>
+                        </tr>
+                    </tbody>
+                        <thead>
+                        <tr>
+                            <th colspan="2">Carta de crédito</th>
+                            <th rowspan="2">Parcela inicial total</th>
+                            <th colspan="2">Lance recursos próprios</th>
+                        </tr>
+                        <tr>
+                            <th>Unitária</th>
+                            <th>Total</th>
+                            <th>%</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${simulations_arr[i].sim_carta_credito_unitaria}</td>
+                            <td>${simulations_arr[i].cartaCreditoTotal}</td>
+                            <td>${simulations_arr[i].parcelaInicialTotal}</td>
+                            <td>${simulations_arr[i].sim_lance_recu_prop_percent * 100}%</td>
+                            <td>${simulations_arr[i].lanceRecursosPropriosValor}</td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Lance embutido</th>
+                            <th rowspan="2">Lance total</th>
+                            <th rowspan="2">Crédito disponível total</th>
+                            <th rowspan="2">Parcela pós contemplação s/ seguro</th>
+                        </tr>
+                        <tr>
+                            <th>%</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${simulations_arr[i].sim_lance_embutido_percent * 100}%</td>
+                            <td>${simulations_arr[i].lanceEmbutidoValor}</td>
+                            <td>${simulations_arr[i].lanceTotal}%</td>
+                            <td>${simulations_arr[i].creditoDisponivelTotal}</td>
+                            <td>${simulations_arr[i].parcelaPosContemplacaoSemSeguro}</td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th colspan="3">Parcela pós contemplação c/ seguro</th>
+                            <th colspan="3">Parcela total pós contemplação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">${simulations_arr[i].parcelaPosContemplacaoComSeguro}</td>
+                            <td colspan="3">${simulations_arr[i].parcelaTotalPosContemplacao}</td>
+                        </tr>
+                    </tbody>
+                `;
+
+                div_el.appendChild(table_element);
+                table_container.appendChild(div_el);
+            }
+
+            const htmlString = table_container.outerHTML;
+
+            const option = {
+                "margin": 0.5,
+                "filename": "simulacao_consorcio.pdf",
+                "html2canvas": { "scale": 1 },
+                "jsPDF": {
+                    "unit": "in",
+                    "format": "letter",
+                    "orientation": "portrait"
+                }
+            }
+
+            html2pdf().set(option).from(htmlString).save();
+        }
 
         function checkAuth() {
             const token = sessionStorage.getItem("authorization");
@@ -95,12 +211,9 @@
             }
         }
 
-        window.onload = checkAuth();
-
         form.addEventListener("submit", async (event) => {
             try {
                 event.preventDefault();
-                const table_subcontainer = document.querySelector("#table-subcontainer");
                 const form_target = event.target;
                 const formData = new FormData(form_target);
                 const data = {};
@@ -133,65 +246,64 @@
                         table_subcontainer.appendChild(h4);
 
                         table_element.innerHTML = `
-                    <thead>
-                        <tr>
-                            <th rowspan="2">Grupos sugeridos</th>
-                            <th rowspan="2">Taxa de ADM</th>
-                            <th rowspan="2">Fundo de reserva</th>
-                            <th rowspan="2">Prazo</th>
-                            <th rowspan="2">Qtde. cotas</th>
-                            <th colspan="2">Carta de crédito</th>
-                            <th rowspan="2">Parcela inicial unitária</th>
-                            <th rowspan="2">Valor da parcela c/ seguro</th>
-                            <th rowspan="2">Parcela inicial total</th>
-                            <th rowspan="2">Parcela c/ seguro total</th>
-                            <th colspan="3">Lance recursos próprios</th>
-                            <th colspan="3">Lance embutido</th>
-                            <th rowspan="2">Lance total</th>
-                            <th rowspan="2">Crédito disponível total</th>
-                            <th rowspan="2">Parcela pós contemplação s/ seguro</th>
-                            <th rowspan="2">Parcela pós contemplação c/ seguro</th>
-                            <th rowspan="2">Parcela total pós contemplação</th>
-                        </tr>
-                        <tr>
-                            <td>Unitária</td>
-                            <td>Total</td>
-                            <td>%</td>
-                            <td>Lance livre</td>
-                            <td>Valor</td>
-                            <td>%</td>
-                            <td>Lance livre</td>
-                            <td>Valor</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>${simulations_arr[i].sim_grupos_sugeridos}</td>
-                            <td>${simulations_arr[i].sim_taxa_adm * 100}%</td>
-                            <td>${simulations_arr[i].sim_fundo_reserva * 100}%</td>
-                            <td>${simulations_arr[i].sim_prazo}</td>
-                            <td>${simulations_arr[i].sim_cotas}</td>
-                            <td>${simulations_arr[i].sim_carta_credito_unitaria}</td>
-                            <td>${simulations_arr[i].cartaCreditoTotal}</td>
-                            <td>${simulations_arr[i].parcelaInicialUnitaria}</td>
-                            <td>${simulations_arr[i].valorParcelaComSeguro}</td>
-                            <td>${simulations_arr[i].parcelaInicialTotal}</td>
-                            <td>${simulations_arr[i].parcelaComSeguroTotal}</td>
-                            <td>${simulations_arr[i].sim_lance_recu_prop_percent * 100}%</td>
-                            <td>${simulations_arr[i].lanceRecursosPropriosValorLanceLivre}</td>
-                            <td>${simulations_arr[i].lanceRecursosPropriosValor}</td>
-                            <td>${simulations_arr[i].sim_lance_embutido_percent * 100}%</td>
-                            <td>${simulations_arr[i].lanceEmbutidoValorLanceLivre}</td>
-                            <td>${simulations_arr[i].lanceEmbutidoValor}</td>
-                            <td>${simulations_arr[i].lanceTotal}%</td>
-                            <td>${simulations_arr[i].creditoDisponivelTotal}</td>
-                            <td>${simulations_arr[i].parcelaPosContemplacaoSemSeguro}</td>
-                            <td>${simulations_arr[i].parcelaPosContemplacaoComSeguro}</td>
-                            <td>${simulations_arr[i].parcelaTotalPosContemplacao}</td>
-                        </tr>
-                    </tbody>
-                `;
-
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Grupos sugeridos</th>
+                                    <th rowspan="2">Taxa de ADM</th>
+                                    <th rowspan="2">Fundo de reserva</th>
+                                    <th rowspan="2">Prazo</th>
+                                    <th rowspan="2">Qtde. cotas</th>
+                                    <th colspan="2">Carta de crédito</th>
+                                    <th rowspan="2">Parcela inicial unitária</th>
+                                    <th rowspan="2">Valor da parcela c/ seguro</th>
+                                    <th rowspan="2">Parcela inicial total</th>
+                                    <th rowspan="2">Parcela c/ seguro total</th>
+                                    <th colspan="3">Lance recursos próprios</th>
+                                    <th colspan="3">Lance embutido</th>
+                                    <th rowspan="2">Lance total</th>
+                                    <th rowspan="2">Crédito disponível total</th>
+                                    <th rowspan="2">Parcela pós contemplação s/ seguro</th>
+                                    <th rowspan="2">Parcela pós contemplação c/ seguro</th>
+                                    <th rowspan="2">Parcela total pós contemplação</th>
+                                </tr>
+                                <tr>
+                                    <td>Unitária</td>
+                                    <td>Total</td>
+                                    <td>%</td>
+                                    <td>Lance livre</td>
+                                    <td>Valor</td>
+                                    <td>%</td>
+                                    <td>Lance livre</td>
+                                    <td>Valor</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>${simulations_arr[i].sim_grupos_sugeridos}</td>
+                                    <td>${simulations_arr[i].sim_taxa_adm * 100}%</td>
+                                    <td>${simulations_arr[i].sim_fundo_reserva * 100}%</td>
+                                    <td>${simulations_arr[i].sim_prazo}</td>
+                                    <td>${simulations_arr[i].sim_cotas}</td>
+                                    <td>${simulations_arr[i].sim_carta_credito_unitaria}</td>
+                                    <td>${simulations_arr[i].cartaCreditoTotal}</td>
+                                    <td>${simulations_arr[i].parcelaInicialUnitaria}</td>
+                                    <td>${simulations_arr[i].valorParcelaComSeguro}</td>
+                                    <td>${simulations_arr[i].parcelaInicialTotal}</td>
+                                    <td>${simulations_arr[i].parcelaComSeguroTotal}</td>
+                                    <td>${simulations_arr[i].sim_lance_recu_prop_percent * 100}%</td>
+                                    <td>${simulations_arr[i].lanceRecursosPropriosValorLanceLivre}</td>
+                                    <td>${simulations_arr[i].lanceRecursosPropriosValor}</td>
+                                    <td>${simulations_arr[i].sim_lance_embutido_percent * 100}%</td>
+                                    <td>${simulations_arr[i].lanceEmbutidoValorLanceLivre}</td>
+                                    <td>${simulations_arr[i].lanceEmbutidoValor}</td>
+                                    <td>${simulations_arr[i].lanceTotal}%</td>
+                                    <td>${simulations_arr[i].creditoDisponivelTotal}</td>
+                                    <td>${simulations_arr[i].parcelaPosContemplacaoSemSeguro}</td>
+                                    <td>${simulations_arr[i].parcelaPosContemplacaoComSeguro}</td>
+                                    <td>${simulations_arr[i].parcelaTotalPosContemplacao}</td>
+                                </tr>
+                            </tbody>
+                        `;
 
                         table_subcontainer.appendChild(table_element);
                     }
