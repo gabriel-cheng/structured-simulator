@@ -20,7 +20,7 @@ const Bradesco_adm = sequelize.define(
         },
         "bradesco_rate": {
             "type": DataTypes.FLOAT,
-            "allowNull": false,
+            "allowNull": false, 
             "validate": {
                 "notEmpty": {
                     "msg": "O campo taxa de administração não pode ser vazio!"

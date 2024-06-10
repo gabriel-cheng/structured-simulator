@@ -28,6 +28,7 @@ app.use(express.static('public'));
 app.use(express.json());
 
 app.use("/", routes.home_route);
+app.use("/adm", routes.adm_route);
 app.use("/user", routes.user_route);
 app.use("/simulator", routes.simulator_route);
 
