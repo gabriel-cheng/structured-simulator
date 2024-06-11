@@ -101,6 +101,7 @@
                 table_element.classList.add("table_width_limiter");
                 const h4 = document.createElement("h4");
                 const div_el = document.createElement("div");
+                div_el.style.height = "100%";
 
                 h4.innerText = `Simulação ${i + 1}`;
 
@@ -191,7 +192,11 @@
             const option = {
                 "margin": 0.5,
                 "filename": "simulacao_consorcio.pdf",
-                "html2canvas": { "scale": 1 },
+                "html2canvas": {
+                    "scale": 1,
+                    "scrollX": 0,
+                    "scrollY": 0
+                },
                 "jsPDF": {
                     "unit": "in",
                     "format": "letter",
