@@ -58,12 +58,8 @@
             }).then(e => e.json());
 
             if (response.status_code == 200) {
-                const token = response.authorization;
-
-                sessionStorage.setItem("authorization", token);
-
                 setTimeout(() => {
-                    window.location.href = "/simulator"
+                    window.location.href = "/"
                 }, 1500);
 
                 return showTemporaryAlert(response.response, 2000, "green");

@@ -28,13 +28,17 @@ class UserCtrl {
             const secret = process.env.JWT_SECRET || "defaultSecret";
 
             const token = jwt.sign({
-                "id": user_finded.user_id,
+                "user_id": user_finded.user_id,
                 "user_email": user_finded.user_email
             }, secret, { "expiresIn": "3h" });
 
+            res.cookie("authorization", token, {
+                "httpOnly": true,
+                "secure": false
+            });
+
             return res.status(200).json({
                 "response": "Authentication successful!",
-                "authorization": token,
                 "status_code": 200
             });
         } catch(error) {
@@ -99,7 +103,8 @@ class UserCtrl {
             "user_email": data.user_email,
             "user_phone": user_phone,
             "user_cpf": user_cpf,
-            "user_password": b_pass_hash
+            "user_password": b_pass_hash,
+            "user_modules_allowed": data.user_modules_allowed
         };
 
         try {
@@ -124,23 +129,20 @@ class UserCtrl {
     }
     async updateUser(req, res) {
         const { user_id } = req.params;
+        const data = req.body;
 
-        const {
-            user_first_name,
-            user_last_name,
-            user_email,
-            user_phone,
-            user_cpf,
-            user_password
-        } = req.body;
+        const user_password = data.user_password;
+        const b_salt = await genSalt(12);
+        const b_pass_hash = await hash(user_password, b_salt);
 
         const user_updated = {
-            user_first_name,
-            user_last_name,
-            user_email,
-            user_phone,
-            user_cpf,
-            user_password
+            "user_first_name": data.user_first_name,
+            "user_last_name": data.user_last_name,
+            "user_email": data.user_email,
+            "user_phone": data.user_phone,
+            "user_cpf": data.user_cpf,
+            "user_password": b_pass_hash,
+            "user_modules_allowed": data.user_modules_allowed
         }
 
         try {
