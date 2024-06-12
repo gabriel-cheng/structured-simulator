@@ -228,7 +228,7 @@
                     data[key] = value;
                 });
 
-                const request = await fetch("/simulator/simulate", {
+                const request = await fetch("/simulator/generate/simulation", {
                     "method": "POST",
                     "headers": {
                         "Content-Type": "application/json",

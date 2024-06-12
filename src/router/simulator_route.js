@@ -4,7 +4,7 @@ const simulator_route = Router();
 const simulator_ctrl = new SimulatorCtrl();
 import checkAuth from "../middlewares/auth_middleware.js";
 
-simulator_route.get("/",  simulator_ctrl.index);
-simulator_route.post("/simulate", checkAuth, simulator_ctrl.simulate);
+simulator_route.get("/:adm",  simulator_ctrl.index);
+simulator_route.post("/generate/simulation", checkAuth, simulator_ctrl.simulate);
 
 export default simulator_route;
