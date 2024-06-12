@@ -93,6 +93,27 @@ const User = sequelize.define(
                     "msg": "Você não pode informar uma sequência numérica como senha!"
                 }
             }
+        },
+        "user_modules_allowed": {
+            "type": DataTypes.ARRAY(DataTypes.STRING),
+            "allowNull": false,
+            "validade": {
+                "len": {
+                    "args": [1],
+                    "msg": "O usuário deve ter acesso a pelo menos 1 módulo!"
+                },
+                "notEmpty": {
+                    "msg": "O campo de módulos não pode ser vazio!"
+                },
+                "isIn": {
+                    "args": [
+                        "bradesco", "cnp", "embracon",
+                        "gazin", "itau", "magalu",
+                        "recon", "santander", "unicoob"
+                    ],
+                    "msg": "Informe um módulo de acesso válido!"
+                }
+            }
         }
     }
 );

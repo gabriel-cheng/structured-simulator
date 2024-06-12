@@ -91,8 +91,6 @@
         const form = document.querySelector("#simulator-form");
         const simulations_arr = [];
 
-        window.onload = checkAuth();
-
         function downloadPDF() {
             const table_container = document.createElement("div");
 
@@ -205,15 +203,6 @@
             }
 
             html2pdf().set(option).from(htmlString).save();
-        }
-
-        function checkAuth() {
-            const token = sessionStorage.getItem("authorization");
-
-            if (!token) {
-                alert("Você precisa estar logado para acessar esta página.");
-                return window.location.href = "/user/auth/login";
-            }
         }
 
         form.addEventListener("submit", async (event) => {
