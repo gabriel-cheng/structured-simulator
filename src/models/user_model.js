@@ -114,6 +114,11 @@ const User = sequelize.define(
                     "msg": "Informe um módulo de acesso válido!"
                 }
             }
+        },
+        "user_is_admin": {
+            "type": DataTypes.BOOLEAN,
+            "allowNull": false,
+            "defaultValue": false,
         }
     }
 );

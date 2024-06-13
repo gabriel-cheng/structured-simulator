@@ -104,7 +104,8 @@ class UserCtrl {
             "user_phone": user_phone,
             "user_cpf": user_cpf,
             "user_password": b_pass_hash,
-            "user_modules_allowed": data.user_modules_allowed
+            "user_modules_allowed": data.user_modules_allowed,
+            "user_is_admin": data.user_is_admin
         };
 
         try {
@@ -142,7 +143,8 @@ class UserCtrl {
             "user_phone": data.user_phone,
             "user_cpf": data.user_cpf,
             "user_password": b_pass_hash,
-            "user_modules_allowed": data.user_modules_allowed
+            "user_modules_allowed": data.user_modules_allowed,
+            "user_is_admin": data.user_is_admin
         }
 
         try {
