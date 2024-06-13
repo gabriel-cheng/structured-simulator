@@ -1,44 +1,37 @@
-<style>
-    .header-a {
-        width: 140px;
-        height: 70px;
-        display: flex;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-    }
-    .header-a:hover {
-        background-color: rgba(53, 53, 53, 0.541);
-    }
-</style>
-
 <header style="background-color: rgba(77, 77, 77, 0.315);" class="d-flex justify-content-end px-5 py-3">
-    <div style="" class="d-flex column-gap-2">
-        <a style="color: black;" class="header-a text-decoration-none" href="/">
-            HOME
-        </a>
-        <a style="color: black;" class="header-a text-decoration-none" href="/user/auth/login">
-            LOGIN
-        </a>
-        <div class="header-a dropdown">
-            <button style="background-color: transparent; border: 0;" class="dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Simulador
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/simulator/santander">Santander</a></li>
-                <li><a class="dropdown-item" href="/simulator/bradesco">Bradesco</a></li>
-                <li><a class="dropdown-item" href="/simulator/cnp">CNP</a></li>
-                <li><a class="dropdown-item" href="/simulator/embracon">Embracon</a></li>
-                <li><a class="dropdown-item" href="/simulator/gazin">Gazin</a></li>
-                <li><a class="dropdown-item" href="/simulator/itau">Itaú</a></li>
-                <li><a class="dropdown-item" href="/simulator/magalu">Magalu</a></li>
-                <li><a class="dropdown-item" href="/simulator/recon">Recon</a></li>
-                <li><a class="dropdown-item" href="/simulator/unicoob">Unicoob</a></li>
-            </ul>
+    <div style="width: 100%" class="d-flex justify-content-between align-items-center">
+        <div class="">
+            <a href="/">
+                <img style="height: 40px;" src="/images/citybens_logo.png" alt="">
+            </a>
         </div>
-        <a style="color: black;" class="header-a text-decoration-none" href="/user/create/view">
-            CADASTRAR-SE
-        </a>
+        <div class="d-flex column-gap-2">
+            <a style="color: black;" class="header-a text-decoration-none" href="/">
+                HOME
+            </a>
+            <a style="color: black;" class="header-a text-decoration-none" href="/user/auth/login">
+                LOGIN
+            </a>
+            <div class="header-a dropdown">
+                <button style="background-color: transparent; border: 0;" class="dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Simulador
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/simulator/santander">Santander</a></li>
+                    <li><a class="dropdown-item" href="/simulator/bradesco">Bradesco</a></li>
+                    <li><a class="dropdown-item" href="/simulator/cnp">CNP</a></li>
+                    <li><a class="dropdown-item" href="/simulator/embracon">Embracon</a></li>
+                    <li><a class="dropdown-item" href="/simulator/gazin">Gazin</a></li>
+                    <li><a class="dropdown-item" href="/simulator/itau">Itaú</a></li>
+                    <li><a class="dropdown-item" href="/simulator/magalu">Magalu</a></li>
+                    <li><a class="dropdown-item" href="/simulator/recon">Recon</a></li>
+                    <li><a class="dropdown-item" href="/simulator/unicoob">Unicoob</a></li>
+                </ul>
+            </div>
+            <a style="color: black;" class="header-a text-decoration-none" href="/user/create/view">
+                CADASTRAR-SE
+            </a>
+        </div>
     </div>
 </header>
