@@ -29,7 +29,8 @@ class UserCtrl {
 
             const token = jwt.sign({
                 "user_id": user_finded.user_id,
-                "user_email": user_finded.user_email
+                "user_email": user_finded.user_email,
+                "user_is_admin": user_finded.user_is_admin
             }, secret, { "expiresIn": "3h" });
 
             res.cookie("authorization", token, {
@@ -109,9 +110,12 @@ class UserCtrl {
         };
 
         try {
-            const user = await User.create(new_user);
+            await User.create(new_user);
 
-            res.render("user_views/register_congratulations", {dados: JSON.stringify(user)});
+            return res.status(201).json({
+                "response": "User created successfully!",
+                "status_code": 201
+            });
         } catch(error) {
             console.log({error});
 

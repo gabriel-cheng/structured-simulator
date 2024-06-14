@@ -12,7 +12,7 @@ function checkAuth(req, res, next) {
     try {
         jwt.verify(token, secret);
 
-        next();
+        return next();
     } catch (error) {
         console.log({ error });
 
