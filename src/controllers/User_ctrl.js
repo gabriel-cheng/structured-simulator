@@ -46,9 +46,6 @@ class UserCtrl {
             console.log({ error });
         }
     }
-    async userLoginView(req, res) {
-        return res.render("user_views/user_login");
-    }
     async viewAllUsers(req, res) {
         try {
             const users = await User.findAll();
@@ -124,13 +121,6 @@ class UserCtrl {
                 "status_code": 400
             });
         }
-    }
-    async registerNewUserView(req, res) {
-        const view_variables = {
-            "title": "Criar cadastro"
-        }
-
-        return res.render("user_views/user_register", view_variables);
     }
     async updateUser(req, res) {
         const { user_id } = req.params;

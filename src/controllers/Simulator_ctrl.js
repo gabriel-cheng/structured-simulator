@@ -2,9 +2,6 @@ import SystemGeneralLogicSv from "../services/System_general_logic_sv.js";
 const system = new SystemGeneralLogicSv();
 
 class SimulatorCtrl {
-    index(req, res) {
-        return res.render("simulator_view/simulator");
-    }
     simulate(req, res) {
         try {
             const data = JSON.parse(JSON.stringify(req.body));
@@ -101,7 +98,9 @@ class SimulatorCtrl {
                 parcelaTotalPosContemplacao
             };
 
-            return res.status(200).json({ "data": simulation });
+            return res.status(200).json({
+                "data": simulation
+            });
         } catch(error) {
             console.log(error);
 
