@@ -1,43 +1,159 @@
 <main class="px-4">
     <div class="my-4 text-center">
-        <h1>Cadastrar</h1>
+        <h1>Registrar novo usuário+</h1>
     </div>
-    <form method="POST" action="/user/create/confirm/view">
+    <form id="create_new_user_form" method="POST" action="/user/create/confirm/view">
         <div class="form-row d-flex justify-content-center flex-wrap gap-2">
             <div class="form-group col-md-6">
                 <label for="inputName">Nome</label>
                 <input required name="user_first_name" type="text" class="form-control" id="inputName"
-                    placeholder="Informe seu nome">
+                    placeholder="Informe o nome do usuário">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputLastName">Sobrenome</label>
                 <input required name="user_last_name" type="text" class="form-control" id="inputLastName"
-                    placeholder="Informe seu sobrenome">
+                    placeholder="Informe o sobrenome do usuário">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputEmail4">Email</label>
                 <input required name="user_email" type="email" class="form-control" id="inputEmail4"
-                    placeholder="Email">
+                    placeholder="Informe o e-mail do usuário">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputPassword4">Senha</label>
                 <input required name="user_password" type="password" class="form-control" id="inputPassword4"
-                    placeholder="Senha">
+                    placeholder="Informe a senha do usuário">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputCellphone">Telefone</label>
                 <input required name="user_phone" oninput="phoneMask(this);" maxlength="15" type="text"
                     class="form-control" id="inputCellphone"
-                    placeholder="Informe os 11 dígitos do seu celular (DDD + número)">
+                    placeholder="Informe os 11 dígitos do celular do usuário (DDD + número)">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputCpf">CPF</label>
                 <input required name="user_cpf" oninput="cpf(this);" maxlength="14" type="text" class="form-control"
-                    id="inputCpf" placeholder="Informe os 11 dígitos do seu CPF">
+                    id="inputCpf" placeholder="Informe os 11 dígitos do CPF do usuário">
+            </div>
+            <div class="form-group col-md-6 border position-relative p-3 mt-3">
+                <input
+                    style="cursor: pointer; padding: 0; margin: 0; vertical-align: center; position: relative; top: 1px; overflow: hidden;"
+                    name="user_is_admin" type="checkbox" id="inputAdmin">
+                <label style="display: inline-block;" for="inputAdmin">O usuário <strong>é um
+                        ADMINISTRADOR</strong></label>
+                <div
+                    style="background-color: white; padding: 0 3px; display: flex; justify-content: center; position: absolute; top: -13px; left: 15px; align-items: center;">
+                    <p
+                        style="background-color: red; width: 22px; height: 22px; font-size: 15px; text-align: center; border-radius: 50%; color: white; margin-right: 5px; margin-bottom: 0;">
+                        !</p>
+                    <p style="color: red; margin: 0;">Ao confirmar, você torna o novo usuário um administrador.</p>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column;" class="form-group col-md-6 btn-group" role="group"
+                aria-label="Basic checkbox toggle button group">
+                <p style="margin: 0;">Acesso à modulos</p>
+                <fieldset id="modules" style="display: flex; flex-wrap: wrap; gap: 2px; justify-content: space-between;"
+                    class="border p-2">
+                    <div class="">
+                        <input type="checkbox" class="module-checkbox btn-check" name="bradesco" id="btncheck1"
+                            autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btncheck1">Bradesco</label>
+                    </div>
+                    <div class="">
+                        <input type="checkbox" class="module-checkbox btn-check" name="cnp" id="btncheck2"
+                            autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btncheck2">CNP</label>
+                    </div>
+                    <div class="">
+                        <input type="checkbox" class="module-checkbox btn-check" name="embracon" id="btncheck3"
+                            autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btncheck3">Embracon</label>
+                    </div>
+                    <div class="">
+                        <input type="checkbox" class="module-checkbox btn-check" name="gazin" id="btncheck4"
+                            autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btncheck4">Gazin</label>
+                    </div>
+                    <div class="">
+                        <input type="checkbox" class="module-checkbox btn-check" name="itau" id="btncheck5"
+                            autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btncheck5">Itaú</label>
+                    </div>
+                    <div class="">
+                        <input type="checkbox" class="module-checkbox btn-check" name="magalu" id="btncheck6"
+                            autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btncheck6">Magalu</label>
+                    </div>
+                    <div class="">
+                        <input type="checkbox" class="module-checkbox btn-check" name="recon" id="btncheck7"
+                            autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btncheck7">Recon</label>
+                    </div>
+                    <div class="">
+                        <input type="checkbox" class="module-checkbox btn-check" name="santander" id="btncheck8"
+                            autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btncheck8">Santander</label>
+                    </div>
+                    <div class="">
+                        <input type="checkbox" class="module-checkbox btn-check" name="unicoob" id="btncheck9"
+                            autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btncheck9">Unicoob</label>
+                    </div>
+                </fieldset>
             </div>
         </div>
         <div class="my-3 d-flex justify-content-center">
             <button style="width: 210px;" type="submit" class="btn btn-primary my-2">Cadastrar-se</button>
         </div>
     </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("create_new_user_form").addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const modules = document.querySelectorAll('.module-checkbox');
+                const modules_allowed = [];
+                const formData = new FormData(this);
+                const formValues = {};
+
+                formData.forEach((value, key) => {
+                    if (!formValues[key]) {
+                        formValues[key] = value;
+                    } else {
+                        if (!Array.isArray(formValues[key])) {
+                            formValues[key] = [formValues[key]];
+                        }
+                        formValues[key].push(value);
+                    }
+                });
+
+                modules.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        modules_allowed.push(checkbox.name);
+                    }
+                });
+
+                formValues["user_modules_allowed"] = modules_allowed;
+                const isAdminCheckbox = document.getElementById('inputAdmin');
+                formValues["user_is_admin"] = isAdminCheckbox.checked ? "true" : "false";
+
+                const create_request = await fetch("/user/create", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "credentials": true
+                    },
+                    body: JSON.stringify(formValues),
+                })
+                .then(response => response.json());
+
+                alert(create_request.response);
+
+                if(create_request.status_code == 201) {
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
 </main>

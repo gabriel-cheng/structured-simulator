@@ -29,7 +29,8 @@ class UserCtrl {
 
             const token = jwt.sign({
                 "user_id": user_finded.user_id,
-                "user_email": user_finded.user_email
+                "user_email": user_finded.user_email,
+                "user_is_admin": user_finded.user_is_admin
             }, secret, { "expiresIn": "3h" });
 
             res.cookie("authorization", token, {
@@ -104,13 +105,17 @@ class UserCtrl {
             "user_phone": user_phone,
             "user_cpf": user_cpf,
             "user_password": b_pass_hash,
-            "user_modules_allowed": data.user_modules_allowed
+            "user_modules_allowed": data.user_modules_allowed,
+            "user_is_admin": data.user_is_admin
         };
 
         try {
-            const user = await User.create(new_user);
+            await User.create(new_user);
 
-            res.render("user_views/register_congratulations", {dados: JSON.stringify(user)});
+            return res.status(201).json({
+                "response": "User created successfully!",
+                "status_code": 201
+            });
         } catch(error) {
             console.log({error});
 
@@ -142,7 +147,8 @@ class UserCtrl {
             "user_phone": data.user_phone,
             "user_cpf": data.user_cpf,
             "user_password": b_pass_hash,
-            "user_modules_allowed": data.user_modules_allowed
+            "user_modules_allowed": data.user_modules_allowed,
+            "user_is_admin": data.user_is_admin
         }
 
         try {
