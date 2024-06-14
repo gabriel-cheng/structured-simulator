@@ -63,7 +63,7 @@ class UserCtrl {
             console.log({error});
 
             return res.status(400).json({
-                "response": {"message": "Bad request", error},
+                "response": "Bad request",
                 "status_code": 400
             });
         }
@@ -84,7 +84,7 @@ class UserCtrl {
             });
         } catch(error) {
             return res.status(400).json({
-                "response": {"message": "Bad request", error},
+                "response": "Bad request",
                 "status_code": 400
             });
         }
@@ -167,7 +167,7 @@ class UserCtrl {
             });
         } catch(error) {
             return res.status(400).json({
-                "response": {"message": "Bad request", error},
+                "response": "Bad request",
                 "status_code": 400
             });
         }
@@ -186,7 +186,7 @@ class UserCtrl {
             });
         } catch(error) {
             return res.status(400).json({
-                "response": {"message": "Bad request", error},
+                "response": "Bad request",
                 "status_code": 400
             });
         }
@@ -207,7 +207,7 @@ class UserCtrl {
             });
         } catch(error) {
             return res.status(400).json({
-                "response": {"message": "Bad request", error},
+                "response": "Bad request",
                 "status_code": 400
             });
         }
@@ -238,7 +238,7 @@ class UserCtrl {
 
             if(!user) {
                 return res.status(401).json({
-                    "response": {"message": "Bad request", "error": "User not found!"},
+                    "response": "User not found!",
                     "status_code": 400
                 });
             }
@@ -253,7 +253,7 @@ class UserCtrl {
             });
         } catch(error) {
             return res.status(400).json({
-                "response": {"message": "Bad request", error},
+                "response": "Bad request",
                 "status_code": 400
             });
         }
@@ -294,7 +294,7 @@ class UserCtrl {
             });
         } catch(error) {
             return res.status(400).json({
-                "response": {"message": "Bad request", error},
+                "response": "Bad request",
                 "status_code": 400
             });
         }

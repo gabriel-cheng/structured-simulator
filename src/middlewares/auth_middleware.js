@@ -1,12 +1,11 @@
 import jwt from "jsonwebtoken";
 
 function checkAuth(req, res, next) {
-    const auth_header = req.headers["cookie"];
-    const token = auth_header && auth_header.split("=")[1];
+    const token = req.cookies.authorization;
     const secret = process.env.JWT_SECRET || "defaultSecret";
 
     if (!token) {
-        return res.status(401).redirect("/user/auth/login");
+        return res.status(401).redirect("/user/auth/login/view");
     }
 
     try {
@@ -16,7 +15,7 @@ function checkAuth(req, res, next) {
     } catch (error) {
         console.log({ error });
 
-        return res.status(401).redirect("/user/auth/login");
+        return res.status(401).redirect("/user/auth/login/view");
     }
 }
 

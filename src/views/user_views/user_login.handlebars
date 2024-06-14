@@ -12,9 +12,6 @@
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <input required type="password" class="form-control" id="exampleInputPassword1">
             </div>
-            <div class="p-0 mb-3 form-check">
-                <p>Não possui cadastro? <a href="/user/create/view">Cadastrar-se</a></p>
-            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
@@ -27,7 +24,7 @@
             const user_email = document.querySelector("#exampleInputEmail1").value;
             const user_password = document.querySelector("#exampleInputPassword1").value;
 
-            const response = await fetch("/user/auth/login/request", {
+            const response = await fetch("/user/auth/login", {
                 "method": "POST",
                 "headers": {
                     "Content-Type": "application/json"

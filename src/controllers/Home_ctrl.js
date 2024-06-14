@@ -21,6 +21,11 @@ class HomeCtrl {
             });
         } catch(error) {
             console.log(error);
+
+            return res.status(500).json({
+                "response": "Internal server error",
+                "status_code": 500
+            });
         }
     }
 }
