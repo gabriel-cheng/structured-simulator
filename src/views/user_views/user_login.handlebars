@@ -24,7 +24,7 @@
             const user_email = document.querySelector("#exampleInputEmail1").value;
             const user_password = document.querySelector("#exampleInputPassword1").value;
 
-            const response = await fetch("/user/auth/login", {
+            const response = await fetch("/user/login", {
                 "method": "POST",
                 "headers": {
                     "Content-Type": "application/json"

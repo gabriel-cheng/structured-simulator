@@ -1,8 +1,8 @@
 import User from "../models/user_model.js";
 import jwt from "jsonwebtoken";
 
-class HomeCtrl {
-    async home(req, res)  {
+class ViewsCtrl {
+    async homeView(req, res)  {
         const secret = process.env.JWT_SECRET;
         const user_token = req.cookies.authorization;
         const token_decoded = jwt.verify(user_token, secret);
@@ -28,6 +28,19 @@ class HomeCtrl {
             });
         }
     }
+    userLoginView(req, res) {
+        return res.render("user_views/user_login");
+    }
+    registerNewUserView(req, res) {
+        const view_variables = {
+            "title": "Criar cadastro"
+        }
+
+        return res.render("user_views/user_register", view_variables);
+    }
+    simulatorView(req, res) {
+        return res.render("simulator_view/simulator");
+    }
 }
 
-export default HomeCtrl
+export default ViewsCtrl;
