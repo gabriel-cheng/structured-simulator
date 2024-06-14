@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 
 function checkIsAdmin(req, res, next) {
-    const auth_header = req.headers["cookie"];
-    const token = auth_header && auth_header.split("=")[1];
+    const token = req.cookies.authorization;
     const secret = process.env.JWT_SECRET || "defaultSecret";
 
     try {
@@ -11,14 +10,17 @@ function checkIsAdmin(req, res, next) {
 
         if(!user_is_admin) {
             return res.status(401).json({
-                "response": "Access denied - You need to be an administrator to access the content!",
+                "response": "Access denied - Only administrators can access this content!",
                 "status_code": 401
             });
         }
 
         next();
     } catch (error) {
-        console.log({ error });
+        return res.status(500).json({
+            "response": "Internal server error!",
+            "status_code": 500
+        });
     }
 }
 

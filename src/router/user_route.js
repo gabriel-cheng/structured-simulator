@@ -15,7 +15,7 @@ user_route.get("/:user_foreign_key/address", checkAuth, checkIsAdmin, user_ctrl.
 user_route.post("/:user_foreign_key/address/create", checkAuth, checkIsAdmin, user_ctrl.createUserAddress);
 user_route.put("/:user_foreign_key/address/update", checkAuth, checkIsAdmin, user_ctrl.updateUserAddress);
 
-user_route.get("/auth/login", user_ctrl.userLoginView);
-user_route.post("/auth/login/request", user_ctrl.userLoginRequest);
+user_route.get("/auth/login/view", user_ctrl.userLoginView);
+user_route.post("/auth/login", user_ctrl.userLoginRequest);
 
 export default user_route;

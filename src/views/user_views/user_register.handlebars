@@ -148,11 +148,13 @@
                 })
                 .then(response => response.json());
 
-                alert(create_request.response);
-
                 if(create_request.status_code == 201) {
-                    window.location.reload();
+                    alert(create_request.response);
+
+                    return window.location.reload();
                 }
+
+                alert("Não foi possível criar o usuário!");
             });
         });
     </script>
