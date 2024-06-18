@@ -34,7 +34,7 @@
             .then(response => response.json());
             const users = all_users.response.users;
 
-            for(let i in users) {
+            for(let i of users) {
                 const tr = document.createElement("tr");
                 const td_id = document.createElement("td");
                 const td_name = document.createElement("td");
@@ -43,15 +43,15 @@
                 const button_update = document.createElement("button");
                 const button_delete = document.createElement("button");
 
-                button_update.classList.add("btn", "btn-warning", "mx-1");
-                button_delete.classList.add("btn", "btn-danger", "mx-1");
+                button_update.classList.add("btn", "btn-warning", "mx-1", "update_button");
+                button_delete.classList.add("btn", "btn-danger", "mx-1", "delete_button");
                 button_update.textContent = "Editar";
                 button_delete.textContent = "Deletar"
 
-                td_id.textContent = i;
+                td_id.textContent = i.user_id;
                 td_id.classList.add("user_id");
-                td_name.textContent = `${users[i].user_first_name} ${users[i].user_last_name}`;
-                td_email.textContent = users[i].user_email;
+                td_name.textContent = `${i.user_first_name} ${i.user_last_name}`;
+                td_email.textContent = i.user_email;
                 td_buttons.appendChild(button_update);
                 td_buttons.appendChild(button_delete);
 
@@ -61,6 +61,32 @@
                 });
 
                 user_tbody.appendChild(tr);
+            }
+        });
+
+        document.querySelector("#user_tbody").addEventListener("click", async (event) => {
+            const clicked_element = event.target;
+            const cell = clicked_element.parentNode;
+            const linha = cell.parentNode;
+            const user_id = linha.querySelector(".user_id").textContent;
+            const update_button = cell.querySelector(".update_button");
+            const delete_button = cell.querySelector(".delete_button");
+
+            if(clicked_element.classList.contains("delete_button")) {
+                const delete_confim = confirm("Deseja deletar este usuário?");
+
+                if(delete_confim) {
+                    const delete_request = await fetch(`/user/delete/${user_id}`, {
+                        "method": "DELETE"
+                    })
+                    .then(response => response.json());
+
+                    alert(delete_request.response);
+
+                    return window.location.reload();
+                }
+
+                return alert("Usuário não deletado!");
             }
         });
     </script>
