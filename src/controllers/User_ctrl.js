@@ -48,7 +48,18 @@ class UserCtrl {
     }
     async viewAllUsers(req, res) {
         try {
-            const users = await User.findAll();
+            const users = await User.findAll({
+                "attributes": [
+                    "user_first_name",
+                    "user_last_name",
+                    "user_email",
+                    "user_phone",
+                    "user_cpf",
+                    "user_modules_allowed",
+                    "createdAt",
+                    "updatedAt"
+                ]
+            });
 
             return res.status(200).json({
                 "response": {

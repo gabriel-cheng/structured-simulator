@@ -17,7 +17,8 @@ class ViewsCtrl {
             const user_modules_allowed = user_request_content.dataValues.user_modules_allowed;
 
             return res.status(200).render("home", {
-                "modules_allowed": user_modules_allowed
+                "modules_allowed": user_modules_allowed,
+                "title": "Simulador"
             });
         } catch(error) {
             console.log(error);
@@ -29,17 +30,22 @@ class ViewsCtrl {
         }
     }
     userLoginView(req, res) {
-        return res.render("user_views/user_login");
+        return res.render("user_views/user_login", {
+            "title": "Efetuar login"
+        });
     }
     registerNewUserView(req, res) {
-        const view_variables = {
-            "title": "Criar cadastro"
-        }
-
-        return res.render("user_views/user_register", view_variables);
+        return res.render("user_views/user_register", {
+            "title": "Cadastrar novo usuário"
+        });
     }
     simulatorView(req, res) {
-        return res.render("simulator_view/simulator");
+        return res.render("simulator_views/simulator");
+    }
+    allUsersView(req, res) {
+        return res.render("admin_views/all_users", {
+            "title": "Visualize todos os usuários"
+        });
     }
 }
 

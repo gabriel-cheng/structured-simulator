@@ -1,0 +1,67 @@
+<main style="display: flex; flex-direction: column; align-items: center;">
+    <h1>Administração de usuários</h1>
+
+    <div style="background-color: rgba(141, 141, 141, 0.404); width: 95vw; height: 600px; box-shadow: inset 0 0 10px #505050; padding: 10px;" class="">
+        <div id="users_list_header" style="width: 100%; min-height: 80px; background-color: rgb(117, 117, 117); display: flex; justify-content: space-around; align-items: center; ">
+            <div>
+                <p style="margin: 0; width: 100%; font-size: 2rem;">Buscar por:</p>
+            </div>
+            <div style="width: 70%;" class="input-group">
+                <input type="text" class="form-control" placeholder="Digite o nome ou e-mail de algum usuário"
+                    aria-label="Digite o nome ou e-mail de algum usuário" aria-describedby="button-addon2">
+                <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+            </div>
+        </div>
+        <div style="overflow-y: scroll; height: 500px; padding: 5px; display: flex; flex-direction: column; gap: 10px;" style="">
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>NOME</th>
+                    <th>E-MAIL</th>
+                    <th>FERRAMENTAS</th>
+                </thead>
+                <tbody id="user_tbody"></tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const user_tbody = document.querySelector("#user_tbody");
+
+            const all_users = await fetch("/user", {
+                "method": "GET"
+            })
+            .then(response => response.json());
+            const users = all_users.response.users;
+
+            for(let i in users) {
+                const tr = document.createElement("tr");
+                const td_id = document.createElement("td");
+                const td_name = document.createElement("td");
+                const td_email = document.createElement("td");
+                const td_buttons = document.createElement("td");
+                const button_update = document.createElement("button");
+                const button_delete = document.createElement("button");
+
+                button_update.classList.add("btn", "btn-warning", "mx-1");
+                button_delete.classList.add("btn", "btn-danger", "mx-1");
+                button_update.textContent = "Editar";
+                button_delete.textContent = "Deletar"
+
+                td_id.textContent = i;
+                td_id.classList.add("user_id");
+                td_name.textContent = `${users[i].user_first_name} ${users[i].user_last_name}`;
+                td_email.textContent = users[i].user_email;
+                td_buttons.appendChild(button_update);
+                td_buttons.appendChild(button_delete);
+
+                [td_id, td_name, td_email, td_buttons].forEach((element) => {
+                    element.classList.add("p-1");
+                    tr.appendChild(element);
+                });
+
+                user_tbody.appendChild(tr);
+            }
+        });
+    </script>
+</main>
