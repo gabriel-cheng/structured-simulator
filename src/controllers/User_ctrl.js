@@ -43,6 +43,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             console.log({ error });
         }
     }
@@ -69,6 +71,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             console.log({error});
 
             return res.status(400).json({
@@ -92,6 +96,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
@@ -118,6 +124,15 @@ class UserCtrl {
             "user_is_admin": data.user_is_admin
         };
 
+        const user_exists = await User.findAll({ "where": {"user_email": data.user_email} });
+
+        if(user_exists.length > 0) {
+            return res.status(400).json({
+                "response": "Este e-mail já existe!",
+                "status_code": 400
+            });
+        }
+
         try {
             await User.create(new_user);
 
@@ -126,10 +141,10 @@ class UserCtrl {
                 "status_code": 201
             });
         } catch(error) {
-            console.log({error});
+            console.log(error);
 
             return res.status(400).json({
-                "response": {"message": "Bad request", error},
+                "response": { "message": "Bad request", error },
                 "status_code": 400
             });
         }
@@ -168,6 +183,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
@@ -195,6 +212,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
@@ -216,6 +235,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
@@ -262,6 +283,8 @@ class UserCtrl {
                 "status_code": 201
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
@@ -303,6 +326,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400

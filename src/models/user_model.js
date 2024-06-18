@@ -38,6 +38,7 @@ const User = sequelize.define(
         "user_email": {
             "type": DataTypes.STRING,
             "allowNull": false,
+            "unique": true,
             "validate": {
                 "len": {
                     "args": [5, 60],
@@ -49,7 +50,7 @@ const User = sequelize.define(
                 "isEmail": {
                     "msg": "Este campo precisa ser um e-mail válido!"
                 }
-            }
+            },
         },
         "user_phone": {
             "type": DataTypes.STRING,
