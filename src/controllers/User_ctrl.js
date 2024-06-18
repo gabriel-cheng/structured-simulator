@@ -176,6 +176,14 @@ class UserCtrl {
     }
     async deleteUser(req, res) {
         const { user_id } = req.params;
+        const user_finded = await User.findByPk(user_id);
+
+        if(!user_finded) {
+            return res.status(404).json({
+                "response": "Usuário não encontrado!",
+                "status_code": 404
+            });
+        }
 
         try {
             await User.destroy({
