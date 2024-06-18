@@ -39,7 +39,7 @@ class UserCtrl {
             });
 
             return res.status(200).json({
-                "response": "Authentication successful!",
+                "response": "Autenticado com sucesso!",
                 "status_code": 200
             });
         } catch(error) {
@@ -50,6 +50,7 @@ class UserCtrl {
         try {
             const users = await User.findAll({
                 "attributes": [
+                    "user_id",
                     "user_first_name",
                     "user_last_name",
                     "user_email",
@@ -121,7 +122,7 @@ class UserCtrl {
             await User.create(new_user);
 
             return res.status(201).json({
-                "response": "User created successfully!",
+                "response": "Usuário criado com sucesso!",
                 "status_code": 201
             });
         } catch(error) {
@@ -182,7 +183,7 @@ class UserCtrl {
             });
 
             return res.status(200).json({
-                "response": "User deleted successfuly!",
+                "response": "Usuário deletado com sucesso!",
                 "status_code": 200
             });
         } catch(error) {
