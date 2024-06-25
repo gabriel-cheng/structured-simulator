@@ -2,6 +2,8 @@ import User from "../models/user_model.js";
 import User_address from "../models/user_address_model.js";
 import jwt from "jsonwebtoken";
 import { compare, genSalt, hash } from "bcrypt";
+import CacheStorage from "../services/CacheStorage_sv.js";
+const cacheStorage = new CacheStorage();
 
 class UserCtrl {
     async userLoginRequest(req, res) {
@@ -33,22 +35,38 @@ class UserCtrl {
                 "user_is_admin": user_finded.user_is_admin
             }, secret, { "expiresIn": "3h" });
 
+            cacheStorage.setCache("token", token, 10800);
+
             res.cookie("authorization", token, {
                 "httpOnly": true,
                 "secure": false
             });
 
             return res.status(200).json({
-                "response": "Authentication successful!",
+                "response": "Autenticado com sucesso!",
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             console.log({ error });
         }
     }
     async viewAllUsers(req, res) {
         try {
-            const users = await User.findAll();
+            const users = await User.findAll({
+                "attributes": [
+                    "user_id",
+                    "user_first_name",
+                    "user_last_name",
+                    "user_email",
+                    "user_phone",
+                    "user_cpf",
+                    "user_modules_allowed",
+                    "createdAt",
+                    "updatedAt"
+                ]
+            });
 
             return res.status(200).json({
                 "response": {
@@ -57,6 +75,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             console.log({error});
 
             return res.status(400).json({
@@ -80,6 +100,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
@@ -106,18 +128,27 @@ class UserCtrl {
             "user_is_admin": data.user_is_admin
         };
 
+        const user_exists = await User.findAll({ "where": {"user_email": data.user_email} });
+
+        if(user_exists.length > 0) {
+            return res.status(400).json({
+                "response": "Este e-mail já existe!",
+                "status_code": 400
+            });
+        }
+
         try {
             await User.create(new_user);
 
             return res.status(201).json({
-                "response": "User created successfully!",
+                "response": "Usuário criado com sucesso!",
                 "status_code": 201
             });
         } catch(error) {
-            console.log({error});
+            console.log(error);
 
             return res.status(400).json({
-                "response": {"message": "Bad request", error},
+                "response": { "message": "Bad request", error },
                 "status_code": 400
             });
         }
@@ -156,6 +187,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
@@ -164,6 +197,14 @@ class UserCtrl {
     }
     async deleteUser(req, res) {
         const { user_id } = req.params;
+        const user_finded = await User.findByPk(user_id);
+
+        if(!user_finded) {
+            return res.status(404).json({
+                "response": "Usuário não encontrado!",
+                "status_code": 404
+            });
+        }
 
         try {
             await User.destroy({
@@ -171,10 +212,12 @@ class UserCtrl {
             });
 
             return res.status(200).json({
-                "response": "User deleted successfuly!",
+                "response": "Usuário deletado com sucesso!",
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
@@ -196,6 +239,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
@@ -242,6 +287,8 @@ class UserCtrl {
                 "status_code": 201
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
@@ -283,6 +330,8 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
+            console.log(error);
+
             return res.status(400).json({
                 "response": "Bad request",
                 "status_code": 400
