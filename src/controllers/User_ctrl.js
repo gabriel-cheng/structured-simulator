@@ -2,6 +2,8 @@ import User from "../models/user_model.js";
 import User_address from "../models/user_address_model.js";
 import jwt from "jsonwebtoken";
 import { compare, genSalt, hash } from "bcrypt";
+import CacheStorage from "../services/CacheStorage_sv.js";
+const cacheStorage = new CacheStorage();
 
 class UserCtrl {
     async userLoginRequest(req, res) {
@@ -32,6 +34,8 @@ class UserCtrl {
                 "user_email": user_finded.user_email,
                 "user_is_admin": user_finded.user_is_admin
             }, secret, { "expiresIn": "3h" });
+
+            cacheStorage.setCache("token", token, 10800);
 
             res.cookie("authorization", token, {
                 "httpOnly": true,

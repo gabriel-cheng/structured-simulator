@@ -5,10 +5,12 @@ import index_model from "./models/index_model.js";
 import pkg from "body-parser";
 import { create } from "express-handlebars";
 import cookieParser from "cookie-parser";
+import CacheStorage from "./services/CacheStorage_sv.js";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const cacheStorage = new CacheStorage();
 
 try {
     sequelize.sync({ force: false })
@@ -32,9 +34,11 @@ const handlebars = create({
     "defaultLayout": "main",
     "extname": ".handlebars",
     "helpers": {
-        "eq": (a, b) => a == b
+        "eq": (a, b) => a == b,
+        "isAdmin": () => true
     }
 });
+
 app.engine("handlebars", handlebars.engine);
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, 'views/'));

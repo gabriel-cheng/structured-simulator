@@ -13,7 +13,7 @@
                 LOGIN
             </a>
             <div class="header-a dropdown">
-                <button style="background-color: transparent; border: 0;" class="dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown"
+                <button style="background-color: transparent; border: 0;" class="header-a dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     Simulador
                 </button>
@@ -29,9 +29,18 @@
                     <li><a class="dropdown-item" href="/view/simulator/unicoob">Unicoob</a></li>
                 </ul>
             </div>
-            <a style="color: black;" class="header-a text-decoration-none" href="/view/user/register">
-                NOVO USUÁRIO+
-            </a>
+            {{#if (isAdmin)}}
+                <div class="header-a dropdown">
+                    <button style="background-color: transparent; border: 0;" class="header-a dropdown-toggle text-uppercase" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Administrar
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/view/admin/user/all">Visualizar usuários</a></li>
+                        <li><a class="dropdown-item" href="/view/user/register">Criar novo usuário+</a></li>
+                    </ul>
+                </div>
+            {{/if}}
         </div>
     </div>
 </header>

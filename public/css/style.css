@@ -74,6 +74,7 @@ td {
     align-items: center;
     justify-content: center;
 }
-.header-a:hover {
+.header-a:hover,
+#admin_dropdown:hover {
     background-color: rgba(53, 53, 53, 0.541);
 }
