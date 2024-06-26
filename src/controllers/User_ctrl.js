@@ -32,7 +32,8 @@ class UserCtrl {
             const token = jwt.sign({
                 "user_id": user_finded.user_id,
                 "user_email": user_finded.user_email,
-                "user_is_admin": user_finded.user_is_admin
+                "user_is_admin": user_finded.user_is_admin,
+                "user_modules_allowed": user_finded.user_modules_allowed
             }, secret, { "expiresIn": "3h" });
 
             cacheStorage.setCache("token", token, 10800);
