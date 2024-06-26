@@ -6,6 +6,7 @@ import pkg from "body-parser";
 import { create } from "express-handlebars";
 import cookieParser from "cookie-parser";
 import CacheStorage from "./services/CacheStorage_sv.js";
+import checkAllowedAdmins from "./middlewares/allowed_admins_middleware.js"
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from 'url';
@@ -48,6 +49,6 @@ app.use(express.json());
 
 app.use("/", routes.views_route);
 app.use("/user", routes.user_route);
-app.use("/simulator", routes.simulator_route);
+app.use("/simulator", checkAllowedAdmins, routes.simulator_route);
 
 export default app;
