@@ -41,7 +41,9 @@ class ViewsCtrl {
         });
     }
     simulatorView(req, res) {
-        return res.render("simulator_views/simulator");
+        const { adm } = req.params;
+
+        return res.render("simulator_views/simulator", { "adm": adm });
     }
     allUsersView(req, res) {
         return res.render("admin_views/all_users", {
