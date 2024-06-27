@@ -10,16 +10,16 @@ function checkIsAdmin(req, res, next) {
 
         if(!user_is_admin) {
             return res.status(401).json({
-                "response": "Access denied - Only administrators can access this content!",
+                "response": "Acesso negado - Você precisa ser um administrador para continuar!",
                 "status_code": 401
             });
         }
 
         next();
     } catch (error) {
-        return res.status(500).json({
-            "response": "Internal server error!",
-            "status_code": 500
+        return res.status(400).json({
+            "response": "Você precisa estar logado para continuar!",
+            "status_code": 400
         });
     }
 }

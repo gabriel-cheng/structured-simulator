@@ -50,6 +50,9 @@ class ViewsCtrl {
             "title": "Visualize todos os usuários"
         });
     }
+    adminsConfigView(req, res) {
+        return res.render("admin_views/admin_config");
+    }
 }
 
 export default ViewsCtrl;

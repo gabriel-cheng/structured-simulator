@@ -4,7 +4,7 @@ import sequelize from "../../config/database_conf.js";
 const Recon_adm = sequelize.define(
     "Recon_adm",
     {
-        "recon_id": {
+        "recon_data_id": {
             "type": DataTypes.INTEGER,
             "autoIncrement": true,
             "primaryKey": true

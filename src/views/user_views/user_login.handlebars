@@ -36,9 +36,7 @@
             }).then(e => e.json());
 
             if (response.status_code == 200) {
-                setTimeout(() => {
-                    window.location.href = "/"
-                }, 1500);
+                window.location.href = "/"
 
                 return showTemporaryAlert(response.response, 2000, "green");
             }

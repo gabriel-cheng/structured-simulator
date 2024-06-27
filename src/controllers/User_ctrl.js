@@ -8,25 +8,26 @@ const cacheStorage = new CacheStorage();
 class UserCtrl {
     async userLoginRequest(req, res) {
         const { user_email, user_password } = req.body;
-        const user_finded = await User.findOne({ "where": { "user_email": user_email } });
-
-        if(!user_finded) {
-            return res.status(404).json({
-                "response": "User not found!",
-                "status_code": 404
-            });
-        }
-
-        const check_password = await compare(user_password, user_finded.user_password);
-
-        if(!check_password) {
-            return res.status(400).json({
-                "response": "Wrong password!",
-                "status_code": 400
-            });
-        }
 
         try {
+            const user_finded = await User.findOne({ "where": { "user_email": user_email } });
+
+            if(!user_finded) {
+                return res.status(404).json({
+                    "response": "User not found!",
+                    "status_code": 404
+                });
+            }
+
+            const check_password = await compare(user_password, user_finded.user_password);
+
+            if(!check_password) {
+                return res.status(400).json({
+                    "response": "Wrong password!",
+                    "status_code": 400
+                });
+            }
+
             const secret = process.env.JWT_SECRET || "defaultSecret";
 
             const token = jwt.sign({
@@ -48,9 +49,12 @@ class UserCtrl {
                 "status_code": 200
             });
         } catch(error) {
-            console.log(error);
-
             console.log({ error });
+
+            return res.status(400).json({
+                "response": "Bad request",
+                "status_code": 400
+            });
         }
     }
     async viewAllUsers(req, res) {
@@ -129,16 +133,17 @@ class UserCtrl {
             "user_is_admin": data.user_is_admin
         };
 
-        const user_exists = await User.findAll({ "where": {"user_email": data.user_email} });
-
-        if(user_exists.length > 0) {
-            return res.status(400).json({
-                "response": "Este e-mail já existe!",
-                "status_code": 400
-            });
-        }
 
         try {
+            const user_exists = await User.findAll({ "where": {"user_email": data.user_email} });
+
+            if(user_exists.length > 0) {
+                return res.status(400).json({
+                    "response": "Este e-mail já existe!",
+                    "status_code": 400
+                });
+            }
+
             await User.create(new_user);
 
             return res.status(201).json({
@@ -149,7 +154,7 @@ class UserCtrl {
             console.log(error);
 
             return res.status(400).json({
-                "response": { "message": "Bad request", error },
+                "response": { "message": "Bad request" },
                 "status_code": 400
             });
         }
@@ -198,16 +203,17 @@ class UserCtrl {
     }
     async deleteUser(req, res) {
         const { user_id } = req.params;
-        const user_finded = await User.findByPk(user_id);
-
-        if(!user_finded) {
-            return res.status(404).json({
-                "response": "Usuário não encontrado!",
-                "status_code": 404
-            });
-        }
 
         try {
+            const user_finded = await User.findByPk(user_id);
+
+            if(!user_finded) {
+                return res.status(404).json({
+                    "response": "Usuário não encontrado!",
+                    "status_code": 404
+                });
+            }
+
             await User.destroy({
                 "where": { user_id }
             });

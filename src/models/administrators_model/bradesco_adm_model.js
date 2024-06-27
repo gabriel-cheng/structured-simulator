@@ -4,7 +4,7 @@ import sequelize from "../../config/database_conf.js";
 const Bradesco_adm = sequelize.define(
     "Bradesco_adm",
     {
-        "bradesco_id": {
+        "bradesco_data_id": {
             "type": DataTypes.INTEGER,
             "autoIncrement": true,
             "primaryKey": true
@@ -20,7 +20,7 @@ const Bradesco_adm = sequelize.define(
         },
         "bradesco_rate": {
             "type": DataTypes.FLOAT,
-            "allowNull": false, 
+            "allowNull": false,
             "validate": {
                 "notEmpty": {
                     "msg": "O campo taxa de administração não pode ser vazio!"

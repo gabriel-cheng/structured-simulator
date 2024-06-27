@@ -4,7 +4,7 @@ import sequelize from "../../config/database_conf.js";
 const Embracon_adm = sequelize.define(
     "Embracon_adm",
     {
-        "embracon_id": {
+        "embracon_data_id": {
             "type": DataTypes.INTEGER,
             "autoIncrement": true,
             "primaryKey": true

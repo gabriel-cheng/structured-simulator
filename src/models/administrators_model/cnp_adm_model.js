@@ -4,7 +4,7 @@ import sequelize from "../../config/database_conf.js";
 const Cnp_adm = sequelize.define(
     "Cnp_adm",
     {
-        "cnp_id": {
+        "cnp_data_id": {
             "type": DataTypes.INTEGER,
             "autoIncrement": true,
             "primaryKey": true
