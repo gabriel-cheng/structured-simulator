@@ -1,13 +1,13 @@
 import { default as Adms_model } from "../../models/administrators_model/index_adm.js";
-const Bradesco = Adms_model.Bradesco;
+const Gazin = Adms_model.Gazin;
 
-class BradescoCtrl {
-    async viewAllBradescoData(req, res) {
+class GazinCtrl {
+    async viewAllGazinData(req, res) {
         try {
-            const bradesco_data = await Bradesco.findAll();
+            const gazin_data = await Gazin.findAll();
 
             return res.status(200).json({
-                "response": bradesco_data,
+                "response": gazin_data,
                 "status_code": 200
             });
         } catch(error) {
@@ -19,13 +19,13 @@ class BradescoCtrl {
             });
         }
     }
-    async viewOneBradescoData(req, res) {
+    async viewOneGazinData(req, res) {
         const { id } = req.params;
 
         try {
-            const bradesco_data_finded = await Bradesco.findByPk(id);
+            const gazin_data_finded = await Gazin.findByPk(id);
 
-            if(!bradesco_data_finded) {
+            if(!gazin_data_finded) {
                 return res.status(404).json({
                     "response": "Dado não encontrado!",
                     "status_code": 404
@@ -33,7 +33,7 @@ class BradescoCtrl {
             }
 
             return res.status(200).json({
-                "response": bradesco_data_finded,
+                "response": gazin_data_finded,
                 "status_code": 200
             });
         } catch(error) {
@@ -45,20 +45,20 @@ class BradescoCtrl {
             });
         }
     }
-    async addNewBradescoData(req, res) {
+    async addNewGazinData(req, res) {
         const data = req.body;
 
-        const new_bradesco_data = {
-            bradesco_group_code: data.bradesco_group_code,
-            bradesco_rate: data.bradesco_rate,
-            bradesco_reserve_fund: data.bradesco_reserve_fund
+        const new_gazin_data = {
+            gazin_group_code: data.gazin_group_code,
+            gazin_rate: data.gazin_rate,
+            gazin_reserve_fund: data.gazin_reserve_fund
         };
 
         try {
-            const bradesco_data = await Bradesco.create(new_bradesco_data);
+            const gazin_data = await Gazin.create(new_gazin_data);
 
             return res.status(201).json({
-                "response": bradesco_data,
+                "response": gazin_data,
                 "status_code": 201
             });
         } catch(error) {
@@ -70,37 +70,37 @@ class BradescoCtrl {
             });
         }
     }
-    async updateBradescoData(req, res) {
+    async updateGazinData(req, res) {
         const { id } = req.params;
 
         const {
-            bradesco_group_code,
-            bradesco_rate,
-            bradesco_reserve_fund,
+            gazin_group_code,
+            gazin_rate,
+            gazin_reserve_fund,
         } = req.body;
 
-        const new_bradesco_data = {
-            bradesco_group_code,
-            bradesco_rate,
-            bradesco_reserve_fund
+        const new_gazin_data = {
+            gazin_group_code,
+            gazin_rate,
+            gazin_reserve_fund
         }
 
         try {
-            const bradesco_data_founded = await Bradesco.findByPk(id);
+            const gazin_data_founded = await Gazin.findByPk(id);
 
-            if(!bradesco_data_founded) {
+            if(!gazin_data_founded) {
                 return res.status(404).json({
                     "response": "Dado não encontrado!",
                     "status_code": 404
                 });
             }
 
-            await bradesco_data_founded.set(new_bradesco_data);
-            await bradesco_data_founded.save();
+            await gazin_data_founded.set(new_gazin_data);
+            await gazin_data_founded.save();
 
             return res.status(200).json({
                 "response": "Dados atualizados com sucesso!",
-                "new_data": bradesco_data_founded,
+                "new_data": gazin_data_founded,
                 "status_code": 200
             });
         } catch(error) {
@@ -110,20 +110,20 @@ class BradescoCtrl {
             });
         }
     }
-    async deleteBradescoData(req, res) {
+    async deleteGazinData(req, res) {
         const { id } = req.params;
 
         try {
-            const bradesco_data_founded = await Bradesco.findByPk(id);
+            const gazin_data_founded = await Gazin.findByPk(id);
 
-            if(!bradesco_data_founded) {
+            if(!gazin_data_founded) {
                 return res.status(404).json({
                     "response": "Dado não encontrado!",
                     "status_code": 404
                 });
             }
 
-            await Bradesco.destroy({ "where": { "bradesco_data_id": id } });
+            await Gazin.destroy({ "where": { "gazin_data_id": id } });
 
             return res.status(200).json({
                 "response": "Informações deletadas com sucesso!",
@@ -140,4 +140,4 @@ class BradescoCtrl {
     }
 }
 
-export default BradescoCtrl;
+export default GazinCtrl;

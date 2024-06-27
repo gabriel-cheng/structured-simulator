@@ -4,7 +4,7 @@ import sequelize from "../../config/database_conf.js";
 const Itau_adm = sequelize.define(
     "Itau_adm",
     {
-        "itau_id": {
+        "itau_data_id": {
             "type": DataTypes.INTEGER,
             "autoIncrement": true,
             "primaryKey": true

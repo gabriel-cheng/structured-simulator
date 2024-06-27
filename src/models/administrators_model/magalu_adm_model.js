@@ -4,7 +4,7 @@ import sequelize from "../../config/database_conf.js";
 const Magalu_adm = sequelize.define(
     "Magalu_adm",
     {
-        "magalu_id": {
+        "magalu_data_id": {
             "type": DataTypes.INTEGER,
             "autoIncrement": true,
             "primaryKey": true

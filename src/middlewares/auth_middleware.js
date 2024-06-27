@@ -6,7 +6,7 @@ function checkAuth(req, res, next) {
 
     if (!token) {
         return res.status(401).json({
-            "response": "You are not authorized to access this content!",
+            "response": "Você não tem autorização para acessar este conteúdo!",
             "status_code": 401
         });
     }
@@ -19,7 +19,7 @@ function checkAuth(req, res, next) {
         console.log({ error });
 
         return res.status(401).json({
-            "response": "Invalid token",
+            "response": "Token inválido!",
             "status_code": 401
         });
     }

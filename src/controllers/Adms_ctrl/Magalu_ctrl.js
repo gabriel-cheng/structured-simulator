@@ -1,13 +1,13 @@
 import { default as Adms_model } from "../../models/administrators_model/index_adm.js";
-const Bradesco = Adms_model.Bradesco;
+const Magalu = Adms_model.Magalu;
 
-class BradescoCtrl {
-    async viewAllBradescoData(req, res) {
+class MagaluCtrl {
+    async viewAllMagaluData(req, res) {
         try {
-            const bradesco_data = await Bradesco.findAll();
+            const magalu_data = await Magalu.findAll();
 
             return res.status(200).json({
-                "response": bradesco_data,
+                "response": magalu_data,
                 "status_code": 200
             });
         } catch(error) {
@@ -19,13 +19,13 @@ class BradescoCtrl {
             });
         }
     }
-    async viewOneBradescoData(req, res) {
+    async viewOneMagaluData(req, res) {
         const { id } = req.params;
 
         try {
-            const bradesco_data_finded = await Bradesco.findByPk(id);
+            const magalu_data_finded = await Magalu.findByPk(id);
 
-            if(!bradesco_data_finded) {
+            if(!magalu_data_finded) {
                 return res.status(404).json({
                     "response": "Dado não encontrado!",
                     "status_code": 404
@@ -33,7 +33,7 @@ class BradescoCtrl {
             }
 
             return res.status(200).json({
-                "response": bradesco_data_finded,
+                "response": magalu_data_finded,
                 "status_code": 200
             });
         } catch(error) {
@@ -45,20 +45,20 @@ class BradescoCtrl {
             });
         }
     }
-    async addNewBradescoData(req, res) {
+    async addNewMagaluData(req, res) {
         const data = req.body;
 
-        const new_bradesco_data = {
-            bradesco_group_code: data.bradesco_group_code,
-            bradesco_rate: data.bradesco_rate,
-            bradesco_reserve_fund: data.bradesco_reserve_fund
+        const new_magalu_data = {
+            magalu_group_code: data.magalu_group_code,
+            magalu_rate: data.magalu_rate,
+            magalu_reserve_fund: data.magalu_reserve_fund
         };
 
         try {
-            const bradesco_data = await Bradesco.create(new_bradesco_data);
+            const magalu_data = await Magalu.create(new_magalu_data);
 
             return res.status(201).json({
-                "response": bradesco_data,
+                "response": magalu_data,
                 "status_code": 201
             });
         } catch(error) {
@@ -70,37 +70,37 @@ class BradescoCtrl {
             });
         }
     }
-    async updateBradescoData(req, res) {
+    async updateMagaluData(req, res) {
         const { id } = req.params;
 
         const {
-            bradesco_group_code,
-            bradesco_rate,
-            bradesco_reserve_fund,
+            magalu_group_code,
+            magalu_rate,
+            magalu_reserve_fund,
         } = req.body;
 
-        const new_bradesco_data = {
-            bradesco_group_code,
-            bradesco_rate,
-            bradesco_reserve_fund
+        const new_magalu_data = {
+            magalu_group_code,
+            magalu_rate,
+            magalu_reserve_fund
         }
 
         try {
-            const bradesco_data_founded = await Bradesco.findByPk(id);
+            const magalu_data_founded = await Magalu.findByPk(id);
 
-            if(!bradesco_data_founded) {
+            if(!magalu_data_founded) {
                 return res.status(404).json({
                     "response": "Dado não encontrado!",
                     "status_code": 404
                 });
             }
 
-            await bradesco_data_founded.set(new_bradesco_data);
-            await bradesco_data_founded.save();
+            await magalu_data_founded.set(new_magalu_data);
+            await magalu_data_founded.save();
 
             return res.status(200).json({
                 "response": "Dados atualizados com sucesso!",
-                "new_data": bradesco_data_founded,
+                "new_data": magalu_data_founded,
                 "status_code": 200
             });
         } catch(error) {
@@ -110,20 +110,20 @@ class BradescoCtrl {
             });
         }
     }
-    async deleteBradescoData(req, res) {
+    async deleteMagaluData(req, res) {
         const { id } = req.params;
 
         try {
-            const bradesco_data_founded = await Bradesco.findByPk(id);
+            const magalu_data_founded = await Magalu.findByPk(id);
 
-            if(!bradesco_data_founded) {
+            if(!magalu_data_founded) {
                 return res.status(404).json({
                     "response": "Dado não encontrado!",
                     "status_code": 404
                 });
             }
 
-            await Bradesco.destroy({ "where": { "bradesco_data_id": id } });
+            await Magalu.destroy({ "where": { "magalu_data_id": id } });
 
             return res.status(200).json({
                 "response": "Informações deletadas com sucesso!",
@@ -140,4 +140,4 @@ class BradescoCtrl {
     }
 }
 
-export default BradescoCtrl;
+export default MagaluCtrl;

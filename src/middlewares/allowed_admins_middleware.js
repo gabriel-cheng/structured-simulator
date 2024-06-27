@@ -18,9 +18,9 @@ function checkAllowedAdmins(req, res, next) {
 
         next();
     } catch (error) {
-        return res.status(500).json({
-            "response": "Internal server error!",
-            "status_code": 500
+        return res.status(400).json({
+            "response": "Você precisa estar logado para acessar o conteúdo!",
+            "status_code": 400
         });
     }
 }

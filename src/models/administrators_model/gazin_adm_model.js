@@ -4,7 +4,7 @@ import sequelize from "../../config/database_conf.js";
 const Gazin_adm = sequelize.define(
     "Gazin_adm",
     {
-        "gazin_id": {
+        "gazin_data_id": {
             "type": DataTypes.INTEGER,
             "autoIncrement": true,
             "primaryKey": true

@@ -4,7 +4,7 @@ import sequelize from "../../config/database_conf.js";
 const Unicoob_adm = sequelize.define(
     "Unicoob_adm",
     {
-        "unicoob_id": {
+        "unicoob_data_id": {
             "type": DataTypes.INTEGER,
             "autoIncrement": true,
             "primaryKey": true

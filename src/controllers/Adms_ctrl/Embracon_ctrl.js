@@ -1,13 +1,13 @@
 import { default as Adms_model } from "../../models/administrators_model/index_adm.js";
-const Bradesco = Adms_model.Bradesco;
+const Embracon = Adms_model.Embracon;
 
-class BradescoCtrl {
-    async viewAllBradescoData(req, res) {
+class EmbraconCtrl {
+    async viewAllEmbraconData(req, res) {
         try {
-            const bradesco_data = await Bradesco.findAll();
+            const embracon_data = await Embracon.findAll();
 
             return res.status(200).json({
-                "response": bradesco_data,
+                "response": embracon_data,
                 "status_code": 200
             });
         } catch(error) {
@@ -19,13 +19,13 @@ class BradescoCtrl {
             });
         }
     }
-    async viewOneBradescoData(req, res) {
+    async viewOneEmbraconData(req, res) {
         const { id } = req.params;
 
         try {
-            const bradesco_data_finded = await Bradesco.findByPk(id);
+            const embracon_data_finded = await Embracon.findByPk(id);
 
-            if(!bradesco_data_finded) {
+            if(!embracon_data_finded) {
                 return res.status(404).json({
                     "response": "Dado não encontrado!",
                     "status_code": 404
@@ -33,7 +33,7 @@ class BradescoCtrl {
             }
 
             return res.status(200).json({
-                "response": bradesco_data_finded,
+                "response": embracon_data_finded,
                 "status_code": 200
             });
         } catch(error) {
@@ -45,20 +45,20 @@ class BradescoCtrl {
             });
         }
     }
-    async addNewBradescoData(req, res) {
+    async addNewEmbraconData(req, res) {
         const data = req.body;
 
-        const new_bradesco_data = {
-            bradesco_group_code: data.bradesco_group_code,
-            bradesco_rate: data.bradesco_rate,
-            bradesco_reserve_fund: data.bradesco_reserve_fund
+        const new_embracon_data = {
+            embracon_group_code: data.embracon_group_code,
+            embracon_rate: data.embracon_rate,
+            embracon_reserve_fund: data.embracon_reserve_fund
         };
 
         try {
-            const bradesco_data = await Bradesco.create(new_bradesco_data);
+            const embracon_data = await Embracon.create(new_embracon_data);
 
             return res.status(201).json({
-                "response": bradesco_data,
+                "response": embracon_data,
                 "status_code": 201
             });
         } catch(error) {
@@ -70,37 +70,37 @@ class BradescoCtrl {
             });
         }
     }
-    async updateBradescoData(req, res) {
+    async updateEmbraconData(req, res) {
         const { id } = req.params;
 
         const {
-            bradesco_group_code,
-            bradesco_rate,
-            bradesco_reserve_fund,
+            embracon_group_code,
+            embracon_rate,
+            embracon_reserve_fund,
         } = req.body;
 
-        const new_bradesco_data = {
-            bradesco_group_code,
-            bradesco_rate,
-            bradesco_reserve_fund
+        const new_embracon_data = {
+            embracon_group_code,
+            embracon_rate,
+            embracon_reserve_fund
         }
 
         try {
-            const bradesco_data_founded = await Bradesco.findByPk(id);
+            const embracon_data_founded = await Embracon.findByPk(id);
 
-            if(!bradesco_data_founded) {
+            if(!embracon_data_founded) {
                 return res.status(404).json({
                     "response": "Dado não encontrado!",
                     "status_code": 404
                 });
             }
 
-            await bradesco_data_founded.set(new_bradesco_data);
-            await bradesco_data_founded.save();
+            await embracon_data_founded.set(new_embracon_data);
+            await embracon_data_founded.save();
 
             return res.status(200).json({
                 "response": "Dados atualizados com sucesso!",
-                "new_data": bradesco_data_founded,
+                "new_data": embracon_data_founded,
                 "status_code": 200
             });
         } catch(error) {
@@ -110,20 +110,20 @@ class BradescoCtrl {
             });
         }
     }
-    async deleteBradescoData(req, res) {
+    async deleteEmbraconData(req, res) {
         const { id } = req.params;
 
         try {
-            const bradesco_data_founded = await Bradesco.findByPk(id);
+            const embracon_data_founded = await Embracon.findByPk(id);
 
-            if(!bradesco_data_founded) {
+            if(!embracon_data_founded) {
                 return res.status(404).json({
                     "response": "Dado não encontrado!",
                     "status_code": 404
                 });
             }
 
-            await Bradesco.destroy({ "where": { "bradesco_data_id": id } });
+            await Embracon.destroy({ "where": { "embracon_data_id": id } });
 
             return res.status(200).json({
                 "response": "Informações deletadas com sucesso!",
@@ -140,4 +140,4 @@ class BradescoCtrl {
     }
 }
 
-export default BradescoCtrl;
+export default EmbraconCtrl;

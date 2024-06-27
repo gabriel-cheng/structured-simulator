@@ -4,7 +4,7 @@ import sequelize from "../../config/database_conf.js";
 const Santander_adm = sequelize.define(
     "Santander_adm",
     {
-        "santander_id": {
+        "santander_data_id": {
             "type": DataTypes.INTEGER,
             "autoIncrement": true,
             "primaryKey": true
