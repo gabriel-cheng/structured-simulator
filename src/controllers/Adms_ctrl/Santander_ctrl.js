@@ -27,7 +27,7 @@ class SantanderCtrl {
 
             if(!santander_data_finded) {
                 return res.status(404).json({
-                    "response": "Dado não encontrado!",
+                    "response": "Grupo não encontrado!",
                     "status_code": 404
                 });
             }
@@ -58,7 +58,7 @@ class SantanderCtrl {
             const santander_data = await Santander.create(new_santander_data);
 
             return res.status(201).json({
-                "response": santander_data,
+                "response": "Grupo adicionado com sucesso!",
                 "status_code": 201
             });
         } catch(error) {
@@ -90,7 +90,7 @@ class SantanderCtrl {
 
             if(!santander_data_founded) {
                 return res.status(404).json({
-                    "response": "Dado não encontrado!",
+                    "response": "Grupo não encontrado!",
                     "status_code": 404
                 });
             }
@@ -99,7 +99,7 @@ class SantanderCtrl {
             await santander_data_founded.save();
 
             return res.status(200).json({
-                "response": "Dados atualizados com sucesso!",
+                "response": "Grupo atualizado com sucesso!",
                 "new_data": santander_data_founded,
                 "status_code": 200
             });
@@ -118,7 +118,7 @@ class SantanderCtrl {
 
             if(!santander_data_founded) {
                 return res.status(404).json({
-                    "response": "Dado não encontrado!",
+                    "response": "Grupo não encontrado!",
                     "status_code": 404
                 });
             }
@@ -126,7 +126,7 @@ class SantanderCtrl {
             await Santander.destroy({ "where": { "santander_data_id": id } });
 
             return res.status(200).json({
-                "response": "Informações deletadas com sucesso!",
+                "response": "Grupo deletado com sucesso!",
                 "status_code": 200
             });
         } catch(error) {

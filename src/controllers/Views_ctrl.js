@@ -53,6 +53,11 @@ class ViewsCtrl {
     adminsConfigView(req, res) {
         return res.render("admin_views/admin_config");
     }
+    adminView(req, res) {
+        const { adm } = req.params;
+
+        return res.render(`admin_views/adms_views/${adm}_view`, { adm });
+    }
 }
 
 export default ViewsCtrl;

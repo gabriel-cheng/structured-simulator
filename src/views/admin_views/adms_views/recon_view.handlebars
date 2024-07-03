@@ -1,0 +1,356 @@
+<style>
+    #close_modal_button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        background-color: rgb(117, 117, 117);
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    #close_modal_button:hover {
+        background-color: antiquewhite;
+    }
+</style>
+
+<main style="display: flex; flex-direction: column; align-items: center; position: relative;">
+    <div class="my-3">
+        <h1>Administrar grupos - <span style="text-transform: capitalize;">{{adm}}</span></h1>
+    </div>
+    <div style="background-color: rgba(141, 141, 141, 0.404); width: 95vw; height: 600px; box-shadow: inset 0 0 10px #505050; padding: 10px;"
+        class="">
+        <div id="users_list_header"
+            style="width: 100%; min-height: 80px; background-color: rgb(117, 117, 117); display: flex; justify-content: space-around; align-items: center; ">
+            <div>
+                <p style="margin: 0; width: 100%; font-size: 2rem;">Buscar por:</p>
+            </div>
+            <div style="width: 70%;" class="input-group">
+                <input type="text" class="form-control" placeholder="Digite o nome ou e-mail de algum usuário"
+                    aria-label="Digite o nome ou e-mail de algum usuário" aria-describedby="button-addon2">
+                <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+            </div>
+        </div>
+        <div style="overflow-y: scroll; height: 500px; margin-top: 5px; display: flex; flex-direction: column; gap: 10px;"
+            style="">
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>CÓDIGO DO GRUPO</th>
+                    <th>TAXA DE ADMINISTRAÇÃO (%)</th>
+                    <th>FUNDO DE RESERVA (%)</th>
+                    <th>FERRAMENTAS</th>
+                </thead>
+                <tbody id="user_tbody"></tbody>
+            </table>
+        </div>
+    </div>
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(31, 31, 31, 0.897); z-index: 10;"
+        id="user_update_modal" class="d-none justify-content-center align-items-center">
+        <div style="background-color: white; width: 65%; border-radius: 20px; position: relative;">
+            <div id="close_modal_button">X</div>
+            <div style="text-align: center; margin: 20px 0;">
+                <h2>Atualizar usuário</h2>
+            </div>
+            <form id="update_user_form" method="POST">
+                <div class="form-row d-flex justify-content-center flex-wrap gap-2">
+                    <div class="form-group col-md-5">
+                        <label for="inputName">Nome</label>
+                        <input name="user_first_name" type="text" class="form-control" id="inputName"
+                            placeholder="Informe o nome do usuário">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="inputLastName">Sobrenome</label>
+                        <input name="user_last_name" type="text" class="form-control" id="inputLastName"
+                            placeholder="Informe o sobrenome do usuário">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="inputEmail">Email</label>
+                        <input name="user_email" type="email" class="form-control" id="inputEmail"
+                            placeholder="Informe o e-mail do usuário">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="inputPassword">Senha</label>
+                        <input name="user_password" type="password" class="form-control" id="inputPassword"
+                            placeholder="Informe a senha do usuário">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="inputCellphone">Telefone</label>
+                        <input name="user_phone" oninput="phoneMask(this);" maxlength="15" type="text"
+                            class="form-control" id="inputCellphone"
+                            placeholder="Informe os 11 dígitos do celular do usuário (DDD + número)">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="inputCpf">CPF</label>
+                        <input name="user_cpf" oninput="cpf(this);" maxlength="14" type="text" class="form-control"
+                            id="inputCpf" placeholder="Informe os 11 dígitos do CPF do usuário">
+                    </div>
+                    <div class="form-group col-md-10 border position-relative p-3 mt-3">
+                        <input
+                            style="cursor: pointer; padding: 0; margin: 0; vertical-align: center; position: relative; top: 1px; overflow: hidden;"
+                            name="user_is_admin" type="checkbox" id="inputAdmin">
+                        <label style="display: inline-block;" for="inputAdmin">O usuário <strong>é um
+                                ADMINISTRADOR</strong></label>
+                        <div
+                            style="background-color: white; padding: 0 3px; display: flex; justify-content: center; position: absolute; top: -13px; left: 15px; align-items: center;">
+                            <p
+                                style="background-color: red; width: 22px; height: 22px; font-size: 15px; text-align: center; border-radius: 50%; color: white; margin-right: 5px; margin-bottom: 0;">
+                                !</p>
+                            <p style="color: red; margin: 0;">Ao confirmar, você torna o novo usuário um administrador.
+                            </p>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column;" class="form-group col-md-10 btn-group"
+                        role="group" aria-label="Basic checkbox toggle button group">
+                        <p style="margin: 0;">Acesso à modulos</p>
+                        <fieldset id="modules"
+                            style="display: flex; flex-wrap: wrap; gap: 2px; justify-content: space-between;"
+                            class="border p-2">
+                            <div class="">
+                                <input type="checkbox" class="module-checkbox btn-check" name="recon" id="btncheck1"
+                                    autocomplete="off">
+                                <label class="btn btn-outline-primary" for="btncheck1">recon</label>
+                            </div>
+                            <div class="">
+                                <input type="checkbox" class="module-checkbox btn-check" name="cnp" id="btncheck2"
+                                    autocomplete="off">
+                                <label class="btn btn-outline-primary" for="btncheck2">CNP</label>
+                            </div>
+                            <div class="">
+                                <input type="checkbox" class="module-checkbox btn-check" name="embracon" id="btncheck3"
+                                    autocomplete="off">
+                                <label class="btn btn-outline-primary" for="btncheck3">Embracon</label>
+                            </div>
+                            <div class="">
+                                <input type="checkbox" class="module-checkbox btn-check" name="gazin" id="btncheck4"
+                                    autocomplete="off">
+                                <label class="btn btn-outline-primary" for="btncheck4">Gazin</label>
+                            </div>
+                            <div class="">
+                                <input type="checkbox" class="module-checkbox btn-check" name="itau" id="btncheck5"
+                                    autocomplete="off">
+                                <label class="btn btn-outline-primary" for="btncheck5">Itaú</label>
+                            </div>
+                            <div class="">
+                                <input type="checkbox" class="module-checkbox btn-check" name="magalu" id="btncheck6"
+                                    autocomplete="off">
+                                <label class="btn btn-outline-primary" for="btncheck6">Magalu</label>
+                            </div>
+                            <div class="">
+                                <input type="checkbox" class="module-checkbox btn-check" name="recon" id="btncheck7"
+                                    autocomplete="off">
+                                <label class="btn btn-outline-primary" for="btncheck7">Recon</label>
+                            </div>
+                            <div class="">
+                                <input type="checkbox" class="module-checkbox btn-check" name="santander" id="btncheck8"
+                                    autocomplete="off">
+                                <label class="btn btn-outline-primary" for="btncheck8">Santander</label>
+                            </div>
+                            <div class="">
+                                <input type="checkbox" class="module-checkbox btn-check" name="unicoob" id="btncheck9"
+                                    autocomplete="off">
+                                <label class="btn btn-outline-primary" for="btncheck9">Unicoob</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="my-3 d-flex justify-content-center">
+                    <button id="button_send" style="width: 210px;" type="submit" class="btn btn-primary my-2">Atualizar
+                        cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const user_tbody = document.querySelector("#user_tbody");
+
+            const all_data = await fetch("/adm/recon", {
+                "method": "GET"
+            })
+            .then(response => response.json());
+
+            const data = all_data.response;
+
+            for (let i of data) {
+                const tr = document.createElement("tr");
+                const td_id = document.createElement("td");
+                const td_group_code = document.createElement("td");
+                const td_adm_rate = document.createElement("td");
+                const td_reserve_fund = document.createElement("td");
+                const td_buttons = document.createElement("td");
+                const button_update = document.createElement("button");
+                const button_delete = document.createElement("button");
+
+                button_update.classList.add("btn", "btn-warning", "mx-1", "update_button");
+                button_delete.classList.add("btn", "btn-danger", "mx-1", "delete_button");
+                button_update.textContent = "Editar";
+                button_delete.textContent = "Deletar"
+
+                td_id.textContent = i.recon_data_id;
+                td_id.classList.add("group_id");
+                td_group_code.textContent = i.recon_group_code;
+                td_adm_rate.textContent = i.recon_rate;
+                td_reserve_fund.textContent = i.recon_reserve_fund;
+                td_buttons.appendChild(button_update);
+                td_buttons.appendChild(button_delete);
+
+                [td_id, td_group_code, td_adm_rate, td_reserve_fund, td_buttons].forEach((element) => {
+                    element.classList.add("p-1");
+                    tr.appendChild(element);
+                });
+
+                user_tbody.appendChild(tr);
+            }
+        });
+
+        document.querySelector("#user_tbody").addEventListener("click", async (event) => {
+            const clicked_element = event.target;
+            const cell = clicked_element.parentNode;
+            const linha = cell.parentNode;
+            const group_id = linha.querySelector(".group_id").textContent;
+            const update_button = cell.querySelector(".update_button");
+            const delete_button = cell.querySelector(".delete_button");
+
+            if (clicked_element.classList.contains("delete_button")) {
+                const delete_confim = confirm("Deseja deletar este usuário?");
+
+                if (delete_confim) {
+                    const delete_request = await fetch(`/adm/recon/delete/${group_id}`, {
+                        "method": "DELETE"
+                    })
+                        .then(response => response.json());
+
+                    alert(delete_request.response);
+
+                    return window.location.reload();
+                }
+
+                return alert("Usuário não deletado!");
+            } else if (clicked_element.classList.contains("update_button")) {
+                openModal();
+                /*
+                                const update_form = document.querySelector("#update_user_form");
+                                const input_first_name = update_form.querySelector("#inputName");
+                                const input_last_name = update_form.querySelector("#inputLastName");
+                                const input_email = update_form.querySelector("#inputEmail");
+                                const input_cellphone = update_form.querySelector("#inputCellphone");
+                                const input_cpf = update_form.querySelector("#inputCpf");
+                                const input_admin = update_form.querySelector("#inputAdmin");
+
+
+                                const user_request_data = await fetch(`/user/${group_id}`, {
+                                    "method": "GET"
+                                })
+                                .then(response => response.json());
+
+                                const user_finded = user_request_data.response.user;
+
+                                if(user_finded.user_is_admin) {
+                                    input_admin.checked = true;
+                                }
+
+                                input_first_name.value =  user_finded.user_first_name;
+                                input_last_name.value =  user_finded.user_last_name;
+                                input_email.value =  user_finded.user_email;
+                                input_cellphone.value =  user_finded.user_phone;
+                                input_cpf.value =  user_finded.user_cpf;
+                */
+            }
+        });
+
+        function openModal() {
+            const modal = document.querySelector("#user_update_modal");
+
+            modal.classList.remove("d-none");
+            modal.classList.add("d-flex");
+        }
+
+        document.querySelector("#close_modal_button").addEventListener("click", () => {
+            const modal = document.querySelector("#user_update_modal");
+
+            modal.classList.remove("d-flex");
+            modal.classList.add("d-none");
+        });
+
+        document.querySelector("#update_user_form").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const modules = document.querySelectorAll('.module-checkbox');
+            const modules_allowed = [];
+            const formData = new FormData(this);
+            const formValues = {};
+
+            formData.forEach((value, key) => {
+                if (!formValues[key]) {
+                    formValues[key] = value;
+                } else {
+                    if (!Array.isArray(formValues[key])) {
+                        formValues[key] = [formValues[key]];
+                    }
+                    formValues[key].push(value);
+                }
+            });
+
+            modules.forEach(checkbox => {
+                if (checkbox.checked) {
+                    modules_allowed.push(checkbox.name);
+                }
+            });
+
+            formValues["user_modules_allowed"] = modules_allowed;
+            const isAdminCheckbox = document.getElementById('inputAdmin');
+            formValues["user_is_admin"] = isAdminCheckbox.checked ? "true" : "false";
+
+            console.log(formValues);
+
+            const create_request = await fetch(`/user/update/`, {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json",
+                    "credentials": true
+                },
+                "body": JSON.stringify(formValues),
+            })
+                .then(response => response.json());
+
+            if (create_request.status_code == 201) {
+                alert(create_request.response);
+
+                return window.location.reload();
+            }
+
+            return alert("Não foi possível atualizar o usuário.");
+        });
+
+        /*
+                document.querySelector("#update_user_form").addEventListener("submit", function(event) {
+                    event.preventDefault();
+
+                    const update_form = document.querySelector("#update_user_form");
+                    const input_name = update_form.querySelector("#inputName").value;
+                    const input_lastName = update_form.querySelector("#inputLastName").value;
+                    const input_email = update_form.querySelector("#inputEmail").value;
+                    const input_password = update_form.querySelector("#inputPassword").value;
+                    const input_cellphone = update_form.querySelector("#inputCellphone").value;
+                    const input_cpf = update_form.querySelector("#inputCpf").value;
+                    const input_admin = update_form.querySelector("#inputAdmin").value;
+
+                    console.log({
+                        input_name,
+                        input_lastName,
+                        input_email,
+                        input_password,
+                        input_cellphone,
+                        input_cpf,
+                        input_admin,
+                    });
+                });
+        */
+    </script>
+</main>

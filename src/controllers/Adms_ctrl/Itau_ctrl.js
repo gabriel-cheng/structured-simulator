@@ -27,7 +27,7 @@ class ItauCtrl {
 
             if(!itau_data_finded) {
                 return res.status(404).json({
-                    "response": "Dado não encontrado!",
+                    "response": "Grupo não encontrado!",
                     "status_code": 404
                 });
             }
@@ -55,10 +55,10 @@ class ItauCtrl {
         };
 
         try {
-            const itau_data = await Itau.create(new_itau_data);
+            await Itau.create(new_itau_data);
 
             return res.status(201).json({
-                "response": itau_data,
+                "response": "Grupo adicionado com sucesso!",
                 "status_code": 201
             });
         } catch(error) {
@@ -90,7 +90,7 @@ class ItauCtrl {
 
             if(!itau_data_founded) {
                 return res.status(404).json({
-                    "response": "Dado não encontrado!",
+                    "response": "Grupo não encontrado!",
                     "status_code": 404
                 });
             }
@@ -99,7 +99,7 @@ class ItauCtrl {
             await itau_data_founded.save();
 
             return res.status(200).json({
-                "response": "Dados atualizados com sucesso!",
+                "response": "Grupo atualizado com sucesso!",
                 "new_data": itau_data_founded,
                 "status_code": 200
             });
@@ -118,7 +118,7 @@ class ItauCtrl {
 
             if(!itau_data_founded) {
                 return res.status(404).json({
-                    "response": "Dado não encontrado!",
+                    "response": "Grupo não encontrado!",
                     "status_code": 404
                 });
             }
@@ -126,7 +126,7 @@ class ItauCtrl {
             await Itau.destroy({ "where": { "itau_data_id": id } });
 
             return res.status(200).json({
-                "response": "Informações deletadas com sucesso!",
+                "response": "Grupo deletado com sucesso!",
                 "status_code": 200
             });
         } catch(error) {
