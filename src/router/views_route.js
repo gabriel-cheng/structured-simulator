@@ -12,5 +12,6 @@ views_route.get("/view/simulator/:adm", checkAllowedAdmins, checkViewAuth, views
 views_route.get("/view/admin/user/all", checkViewAuth, checkIsAdmin, views_ctrl.allUsersView);
 views_route.get("/view/admin/adm/config", checkViewAuth, checkIsAdmin, views_ctrl.adminsConfigView);
 views_route.get("/view/admin/user/register", checkViewAuth, checkIsAdmin, views_ctrl.registerNewUserView);
+views_route.get("/view/admin/adm/config/:adm", checkViewAuth, checkIsAdmin, views_ctrl.adminView);
 
 export default views_route;
