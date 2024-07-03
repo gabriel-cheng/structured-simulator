@@ -22,20 +22,35 @@
     <div class="my-3">
         <h1>Administrar grupos - <span style="text-transform: capitalize;">{{adm}}</span></h1>
     </div>
-    <div style="background-color: rgba(141, 141, 141, 0.404); width: 95vw; height: 600px; box-shadow: inset 0 0 10px #505050; padding: 10px;"
-        class="">
+    <div style="width: 95vw; height: 600px; box-shadow: inset 0 0 10px #505050; padding: 10px;" class="">
         <div id="users_list_header"
-            style="width: 100%; min-height: 80px; background-color: rgb(117, 117, 117); display: flex; justify-content: space-around; align-items: center; ">
-            <div>
-                <p style="margin: 0; width: 100%; font-size: 2rem;">Buscar por:</p>
-            </div>
-            <div style="width: 70%;" class="input-group">
-                <input type="text" class="form-control" placeholder="Digite o nome ou e-mail de algum usuário"
-                    aria-label="Digite o nome ou e-mail de algum usuário" aria-describedby="button-addon2">
-                <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+            style="width: 100%; min-height: 80px; background-color: rgb(117, 117, 117); display: flex; justify-content: flex-start; align-items: center; padding: 0 20px;">
+            <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false" data-bs-auto-close="outside">
+                    Adicionar grupo +
+                </button>
+                <form id="itau_group_add" style="width: 300px;" class="dropdown-menu p-4">
+                    <div class="mb-3">
+                        <label for="itau_group_code" class="form-label">Código do grupo</label>
+                        <input name="itau_group_code" type="text" class="form-control" id="itau_group_code"
+                            placeholder="Código do grupo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="itau_rate" class="form-label">Taxa de administração (%)</label>
+                        <input step="0.01" name="itau_rate" type="number" class="form-control" id="itau_rate"
+                            placeholder="Taxa de administração">
+                    </div>
+                    <div class="mb-3">
+                        <label for="itau_reserve_fund" class="form-label">Fundo de reserva (%)</label>
+                        <input step="0.01" name="itau_reserve_fund" type="number" class="form-control"
+                            id="itau_reserve_fund" placeholder="Fundo de reserva">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </form>
             </div>
         </div>
-        <div style="overflow-y: scroll; height: 500px; margin-top: 5px; display: flex; flex-direction: column; gap: 10px;"
+        <div style="background-color: white; overflow-y: scroll; height: 500px; margin-top: 5px; display: flex; flex-direction: column; gap: 10px;"
             style="">
             <table>
                 <thead>
@@ -45,7 +60,7 @@
                     <th>FUNDO DE RESERVA (%)</th>
                     <th>FERRAMENTAS</th>
                 </thead>
-                <tbody id="user_tbody"></tbody>
+                <tbody id="table_tbody"></tbody>
             </table>
         </div>
     </div>
@@ -146,9 +161,9 @@
                                 <label class="btn btn-outline-primary" for="btncheck7">Recon</label>
                             </div>
                             <div class="">
-                                <input type="checkbox" class="module-checkbox btn-check" name="santander" id="btncheck8"
+                                <input type="checkbox" class="module-checkbox btn-check" name="itau" id="btncheck8"
                                     autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck8">Santander</label>
+                                <label class="btn btn-outline-primary" for="btncheck8">itau</label>
                             </div>
                             <div class="">
                                 <input type="checkbox" class="module-checkbox btn-check" name="unicoob" id="btncheck9"
@@ -168,12 +183,12 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            const user_tbody = document.querySelector("#user_tbody");
+            const table_tbody = document.querySelector("#table_tbody");
 
             const all_data = await fetch("/adm/itau", {
                 "method": "GET"
             })
-            .then(response => response.json());
+                .then(response => response.json());
 
             const data = all_data.response;
 
@@ -184,19 +199,20 @@
                 const td_adm_rate = document.createElement("td");
                 const td_reserve_fund = document.createElement("td");
                 const td_buttons = document.createElement("td");
-                const button_update = document.createElement("button");
+                const button_update = generateDropdown(i.itau_group_code, i.itau_rate, i.itau_reserve_fund);
                 const button_delete = document.createElement("button");
 
-                button_update.classList.add("btn", "btn-warning", "mx-1", "update_button");
                 button_delete.classList.add("btn", "btn-danger", "mx-1", "delete_button");
-                button_update.textContent = "Editar";
                 button_delete.textContent = "Deletar"
 
                 td_id.textContent = i.itau_data_id;
                 td_id.classList.add("group_id");
                 td_group_code.textContent = i.itau_group_code;
+                td_group_code.classList.add("group_code");
                 td_adm_rate.textContent = i.itau_rate;
+                td_adm_rate.classList.add("rate");
                 td_reserve_fund.textContent = i.itau_reserve_fund;
+                td_reserve_fund.classList.add("reserve_fund");
                 td_buttons.appendChild(button_update);
                 td_buttons.appendChild(button_delete);
 
@@ -205,23 +221,152 @@
                     tr.appendChild(element);
                 });
 
-                user_tbody.appendChild(tr);
+                table_tbody.appendChild(tr);
+            }
+
+            function generateDropdown(group_code, adm_rate, reserve_fund) {
+                const container = document.createElement("div");
+                container.classList.add("btn");
+
+                const dropdownDiv = document.createElement('div');
+                dropdownDiv.classList.add('dropdown');
+
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.classList.add('btn', 'btn-warning', 'dropdown-toggle', 'update_btn');
+                button.setAttribute('data-bs-toggle', 'dropdown');
+                button.setAttribute('aria-expanded', 'false');
+                button.setAttribute('data-bs-auto-close', 'outside');
+                button.textContent = 'Editar';
+
+                const form = document.createElement('form');
+                form.id = 'itau_group_update';
+                form.style.width = '300px';
+                form.classList.add('dropdown-menu', 'p-4');
+
+                const groupCodeDiv = document.createElement('div');
+                groupCodeDiv.classList.add('mb-3');
+                const groupCodeLabel = document.createElement('label');
+                groupCodeLabel.classList.add('form-label');
+                groupCodeLabel.setAttribute('for', 'itau_group_code');
+                groupCodeLabel.textContent = 'Código do grupo';
+                const groupCodeInput = document.createElement('input');
+                groupCodeInput.value = group_code;
+                groupCodeInput.name = 'itau_group_code';
+                groupCodeInput.type = 'text';
+                groupCodeInput.classList.add('form-control');
+                groupCodeInput.id = 'itau_group_code';
+                groupCodeInput.placeholder = 'Código do grupo';
+                groupCodeDiv.appendChild(groupCodeLabel);
+                groupCodeDiv.appendChild(groupCodeInput);
+
+                const rateDiv = document.createElement('div');
+                rateDiv.classList.add('mb-3');
+                const rateLabel = document.createElement('label');
+                rateLabel.classList.add('form-label');
+                rateLabel.setAttribute('for', 'itau_rate');
+                rateLabel.textContent = 'Taxa de administração (%)';
+                const rateInput = document.createElement('input');
+                rateInput.value = adm_rate;
+                rateInput.step = '0.01';
+                rateInput.name = 'itau_rate';
+                rateInput.type = 'number';
+                rateInput.classList.add('form-control');
+                rateInput.id = 'itau_rate';
+                rateInput.placeholder = 'Taxa de administração';
+                rateDiv.appendChild(rateLabel);
+                rateDiv.appendChild(rateInput);
+
+                const reserveFundDiv = document.createElement('div');
+                reserveFundDiv.classList.add('mb-3');
+                const reserveFundLabel = document.createElement('label');
+                reserveFundLabel.classList.add('form-label');
+                reserveFundLabel.setAttribute('for', 'itau_reserve_fund');
+                reserveFundLabel.textContent = 'Fundo de reserva (%)';
+                const reserveFundInput = document.createElement('input');
+                reserveFundInput.value = reserve_fund;
+                reserveFundInput.step = '0.01';
+                reserveFundInput.name = 'itau_reserve_fund';
+                reserveFundInput.type = 'number';
+                reserveFundInput.classList.add('form-control');
+                reserveFundInput.id = 'itau_reserve_fund';
+                reserveFundInput.placeholder = 'Fundo de reserva';
+                reserveFundDiv.appendChild(reserveFundLabel);
+                reserveFundDiv.appendChild(reserveFundInput);
+
+                const submitButton = document.createElement('button');
+                submitButton.type = 'submit';
+                submitButton.classList.add('btn', 'btn-primary', "btn_update_submit");
+                submitButton.textContent = 'Alterar';
+
+                form.appendChild(groupCodeDiv);
+                form.appendChild(rateDiv);
+                form.appendChild(reserveFundDiv);
+                form.appendChild(submitButton);
+
+                dropdownDiv.appendChild(button);
+                dropdownDiv.appendChild(form);
+
+                container.appendChild(dropdownDiv);
+
+                form.addEventListener("submit", async function (event) {
+                    event.preventDefault();
+                    const update_button_container = this.parentNode;
+                    const update_button = update_button_container.parentNode;
+                    const cell = update_button.parentNode;
+                    const row = cell.parentNode;
+                    const group_id = row.querySelector(".group_id").textContent;
+
+                    const formData = new FormData(this);
+                    const formValues = {};
+
+                    formData.forEach((value, key) => {
+                        if (key === 'itau_rate' || key === 'itau_reserve_fund') {
+                            value = parseFloat(value);
+                        }
+
+                        if (!formValues[key]) {
+                            formValues[key] = value;
+                        } else {
+                            if (!Array.isArray(formValues[key])) {
+                                formValues[key] = [formValues[key]];
+                            }
+                            formValues[key].push(value);
+                        }
+                    });
+
+                    const update_request = await fetch(`/adm/itau/update/${group_id}`, {
+                        "method": "PUT",
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": JSON.stringify(formValues)
+                    })
+                    .then(response => response.json())
+                    .catch(error => alert("Não foi possível atualizar o grupo!"));
+
+                    alert(update_request.response);
+
+                    window.location.reload();
+                });
+
+                return container;
             }
         });
 
-        document.querySelector("#user_tbody").addEventListener("click", async (event) => {
+        document.querySelector("#table_tbody").addEventListener("click", async (event) => {
             const clicked_element = event.target;
             const cell = clicked_element.parentNode;
             const linha = cell.parentNode;
-            const group_id = linha.querySelector(".group_id").textContent;
+            const group_id = linha.querySelector(".group_id");
             const update_button = cell.querySelector(".update_button");
             const delete_button = cell.querySelector(".delete_button");
 
             if (clicked_element.classList.contains("delete_button")) {
-                const delete_confim = confirm("Deseja deletar este usuário?");
+                const delete_confim = confirm("Deseja deletar este grupo?");
 
                 if (delete_confim) {
-                    const delete_request = await fetch(`/adm/itau/delete/${group_id}`, {
+                    const delete_request = await fetch(`/adm/itau/delete/${group_id.textContent}`, {
                         "method": "DELETE"
                     })
                         .then(response => response.json());
@@ -231,62 +376,21 @@
                     return window.location.reload();
                 }
 
-                return alert("Usuário não deletado!");
-            } else if (clicked_element.classList.contains("update_button")) {
-                openModal();
-                /*
-                                const update_form = document.querySelector("#update_user_form");
-                                const input_first_name = update_form.querySelector("#inputName");
-                                const input_last_name = update_form.querySelector("#inputLastName");
-                                const input_email = update_form.querySelector("#inputEmail");
-                                const input_cellphone = update_form.querySelector("#inputCellphone");
-                                const input_cpf = update_form.querySelector("#inputCpf");
-                                const input_admin = update_form.querySelector("#inputAdmin");
-
-
-                                const user_request_data = await fetch(`/user/${group_id}`, {
-                                    "method": "GET"
-                                })
-                                .then(response => response.json());
-
-                                const user_finded = user_request_data.response.user;
-
-                                if(user_finded.user_is_admin) {
-                                    input_admin.checked = true;
-                                }
-
-                                input_first_name.value =  user_finded.user_first_name;
-                                input_last_name.value =  user_finded.user_last_name;
-                                input_email.value =  user_finded.user_email;
-                                input_cellphone.value =  user_finded.user_phone;
-                                input_cpf.value =  user_finded.user_cpf;
-                */
+                return alert("Grupo não deletado!");
             }
         });
 
-        function openModal() {
-            const modal = document.querySelector("#user_update_modal");
-
-            modal.classList.remove("d-none");
-            modal.classList.add("d-flex");
-        }
-
-        document.querySelector("#close_modal_button").addEventListener("click", () => {
-            const modal = document.querySelector("#user_update_modal");
-
-            modal.classList.remove("d-flex");
-            modal.classList.add("d-none");
-        });
-
-        document.querySelector("#update_user_form").addEventListener("submit", async function (event) {
+        document.querySelector("#itau_group_add").addEventListener("submit", async function (event) {
             event.preventDefault();
 
-            const modules = document.querySelectorAll('.module-checkbox');
-            const modules_allowed = [];
             const formData = new FormData(this);
             const formValues = {};
 
             formData.forEach((value, key) => {
+                if (key === 'itau_rate' || key === 'itau_reserve_fund') {
+                    value = parseFloat(value);
+                }
+
                 if (!formValues[key]) {
                     formValues[key] = value;
                 } else {
@@ -297,60 +401,18 @@
                 }
             });
 
-            modules.forEach(checkbox => {
-                if (checkbox.checked) {
-                    modules_allowed.push(checkbox.name);
-                }
-            });
-
-            formValues["user_modules_allowed"] = modules_allowed;
-            const isAdminCheckbox = document.getElementById('inputAdmin');
-            formValues["user_is_admin"] = isAdminCheckbox.checked ? "true" : "false";
-
-            console.log(formValues);
-
-            const create_request = await fetch(`/user/update/`, {
+            const request = await fetch("/adm/itau/add", {
                 "method": "POST",
                 "headers": {
-                    "Content-Type": "application/json",
-                    "credentials": true
+                    "Content-Type": "application/json"
                 },
-                "body": JSON.stringify(formValues),
+                "body": JSON.stringify(formValues)
             })
                 .then(response => response.json());
 
-            if (create_request.status_code == 201) {
-                alert(create_request.response);
+            alert(request.response);
 
-                return window.location.reload();
-            }
-
-            return alert("Não foi possível atualizar o usuário.");
+            window.location.reload();
         });
-
-        /*
-                document.querySelector("#update_user_form").addEventListener("submit", function(event) {
-                    event.preventDefault();
-
-                    const update_form = document.querySelector("#update_user_form");
-                    const input_name = update_form.querySelector("#inputName").value;
-                    const input_lastName = update_form.querySelector("#inputLastName").value;
-                    const input_email = update_form.querySelector("#inputEmail").value;
-                    const input_password = update_form.querySelector("#inputPassword").value;
-                    const input_cellphone = update_form.querySelector("#inputCellphone").value;
-                    const input_cpf = update_form.querySelector("#inputCpf").value;
-                    const input_admin = update_form.querySelector("#inputAdmin").value;
-
-                    console.log({
-                        input_name,
-                        input_lastName,
-                        input_email,
-                        input_password,
-                        input_cellphone,
-                        input_cpf,
-                        input_admin,
-                    });
-                });
-        */
     </script>
 </main>

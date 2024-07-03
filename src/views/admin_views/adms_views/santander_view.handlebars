@@ -39,12 +39,12 @@
                     <div class="mb-3">
                         <label for="santander_rate" class="form-label">Taxa de administração (%)</label>
                         <input step="0.01" name="santander_rate" type="number" class="form-control" id="santander_rate"
-                            placeholder="Código do grupo">
+                            placeholder="Taxa de administração">
                     </div>
                     <div class="mb-3">
                         <label for="santander_reserve_fund" class="form-label">Fundo de reserva (%)</label>
                         <input step="0.01" name="santander_reserve_fund" type="number" class="form-control"
-                            id="santander_reserve_fund" placeholder="Código do grupo">
+                            id="santander_reserve_fund" placeholder="Fundo de reserva">
                     </div>
                     <button type="submit" class="btn btn-primary">Adicionar</button>
                 </form>
@@ -366,7 +366,7 @@
                 const delete_confim = confirm("Deseja deletar este grupo?");
 
                 if (delete_confim) {
-                    const delete_request = await fetch(`/adm/santander/delete/${group_id}`, {
+                    const delete_request = await fetch(`/adm/santander/delete/${group_id.textContent}`, {
                         "method": "DELETE"
                     })
                         .then(response => response.json());
